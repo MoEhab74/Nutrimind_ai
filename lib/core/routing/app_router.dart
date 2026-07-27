@@ -6,6 +6,7 @@ import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
 import 'package:nutrimind_ai/features/history/presentation/views/history_view.dart';
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
 import 'package:nutrimind_ai/features/profile/presentation/views/profile_view.dart';
+import 'package:nutrimind_ai/features/splash/splash_view.dart';
 
 abstract class AppRouter {
   static late final GoRouter router;
@@ -19,8 +20,13 @@ abstract class AppRouter {
       // Check for the first time the user opens the app to show the onboarding screen
       // Check if user isLoggedIn or not before showing the login screen
       // If not logged in, show login, else show home screen
-      initialLocation: AppRoutes.home,
+      initialLocation: AppRoutes.splash,
       routes: [
+        GoRoute(
+          path: AppRoutes.splash,
+          name: AppRoutes.splash,
+          builder: (context, state) => const SplashView(),
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>
               RouterShell(navigationShell: navigationShell),

@@ -40,6 +40,9 @@ class $AssetsImagesGen {
   AssetGenImage get registerImage =>
       const AssetGenImage('assets/images/register_image.png');
 
+  /// File path: assets/images/splash.png
+  AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     loginImage,
@@ -49,6 +52,7 @@ class $AssetsImagesGen {
     onBoarding2,
     onBoarding3,
     registerImage,
+    splash,
   ];
 }
 
