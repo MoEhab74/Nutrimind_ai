@@ -5,6 +5,7 @@ import 'package:nutrimind_ai/core/routing/router_shell.dart';
 import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
 import 'package:nutrimind_ai/features/history/presentation/views/history_view.dart';
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
+import 'package:nutrimind_ai/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:nutrimind_ai/features/profile/presentation/views/profile_view.dart';
 import 'package:nutrimind_ai/features/splash/splash_view.dart';
 
@@ -26,6 +27,12 @@ abstract class AppRouter {
           path: AppRoutes.splash,
           name: AppRoutes.splash,
           builder: (context, state) => const SplashView(),
+        ),
+        GoRoute(
+          path: AppRoutes.onBoarding,
+          name: AppRoutes.onBoarding,
+          builder: (context, state) =>
+              OnBoardingView(onFinish: () => router.go(AppRoutes.home)),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>

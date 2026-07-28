@@ -16,7 +16,7 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () {
-      context.pushReplacement(AppRoutes.home);
+      context.pushReplacement(AppRoutes.onBoarding);
     });
   }
 
@@ -24,7 +24,12 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(Assets.images.splash.path, fit: BoxFit.cover),
+        child: Image.asset(
+          Assets.images.splash.path,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
