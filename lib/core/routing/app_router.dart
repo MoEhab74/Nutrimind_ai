@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/routing/router_shell.dart';
+import 'package:nutrimind_ai/features/Auth/presentation/views/login_view.dart';
+import 'package:nutrimind_ai/features/Auth/presentation/views/register_view.dart';
 import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
 import 'package:nutrimind_ai/features/history/presentation/views/history_view.dart';
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
@@ -32,7 +34,17 @@ abstract class AppRouter {
           path: AppRoutes.onBoarding,
           name: AppRoutes.onBoarding,
           builder: (context, state) =>
-              OnBoardingView(onFinish: () => router.go(AppRoutes.home)),
+              OnBoardingView(onFinish: () => router.go(AppRoutes.register)),
+        ),
+        GoRoute(
+          path: AppRoutes.login,
+          name: AppRoutes.login,
+          builder: (context, state) => const LoginView(),
+        ),
+        GoRoute(
+          path: AppRoutes.register,
+          name: AppRoutes.register,
+          builder: (context, state) => const RegisterView(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>
