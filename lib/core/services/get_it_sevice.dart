@@ -5,39 +5,32 @@ import 'package:nutrimind_ai/core/api/dio_consumer.dart';
 import 'package:nutrimind_ai/core/cache/cache_helper.dart';
 import 'package:nutrimind_ai/core/cache/secure_cache_helper.dart';
 import 'package:nutrimind_ai/core/services/is_logged_in_service.dart';
+import 'package:nutrimind_ai/core/services/onboarding_service.dart';
 import 'package:nutrimind_ai/core/services/tokens_secure_service.dart';
 
-final getit = GetIt.instance;
+import 'package:nutrimind_ai/features/profile_setup/presentation/manager/profile_setup_cubit.dart';
+
+final getIt = GetIt.instance;
 
 void setupGetIt() {
   // Register App repositories
-  getit.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: Dio()));
-  // getit.registerLazySingleton<RegisterRepo>(
-  //   () => RegisterRepoImplementation(apiConsumer: getit<ApiConsumer>()),
-  // );
-  // getit.registerLazySingleton<LoginRepo>(
-  //   () => LoginRepoImplementation(
-  //     apiConsumer: getit<ApiConsumer>(),
-  //     tokenSecureService: getit<TokensSecureService>(),
-  //     isLoggedInService: getit<IsLoggedInService>(),
-  //   ),
-  // );
-  // getit.registerLazySingleton<HomeRepo>(
-  //   () => HomeRepoImpl(apiConsumer: getit<ApiConsumer>()),
-  // );
-  // getit.registerLazySingleton<ProfileRepo>(
-  //   () => ProfileRepoImpl(apiConsumer: getit<ApiConsumer>()),
-  // );
-  // // Register cache helpers
-  // getit.registerLazySingleton<CacheHelper>(() => CacheHelper());
-  // getit.registerLazySingleton<SecureCacheHelper>(() => SecureCacheHelper());
-  // getit.registerLazySingleton<OnboardingService>(
-  //   () => OnboardingService(getit<CacheHelper>()),
-  // );
-  getit.registerLazySingleton<IsLoggedInService>(
-    () => IsLoggedInService(getit<CacheHelper>()),
+  getIt.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: Dio()));
+  getIt.registerFactory<ProfileSetupCubit>(() => ProfileSetupCubit());
+  getIt.registerLazySingleton<IsLoggedInService>(
+    () => IsLoggedInService(getIt<CacheHelper>()),
   );
-  getit.registerLazySingleton<TokensSecureService>(
-    () => TokensSecureService(getit<SecureCacheHelper>()),
+  getIt.registerLazySingleton<TokensSecureService>(
+    () => TokensSecureService(getIt<SecureCacheHelper>()),
+  );
+
+  // Cache Helper
+  getIt.registerLazySingleton<CacheHelper>(() => CacheHelper());
+
+  // Secure Cache Helper
+  getIt.registerLazySingleton<SecureCacheHelper>(() => SecureCacheHelper());
+
+  // Onboarding Service
+  getIt.registerLazySingleton<OnboardingService>(
+    () => OnboardingService(getIt<CacheHelper>()),
   );
 }

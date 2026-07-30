@@ -8,5 +8,6 @@ abstract class AppRoutes {
   static const profile = '/profile';
   static const history = '/history';
   static const chat = '/chat';
+  static const profileSetup = '/profileSetup';
 
 }

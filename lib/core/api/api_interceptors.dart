@@ -17,7 +17,7 @@ class ApiInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await getit<TokensSecureService>().getAccessToken();
+    final accessToken = await getIt<TokensSecureService>().getAccessToken();
     options.headers['Authorization'] = 'Bearer $accessToken';
     super.onRequest(options, handler);
   }
@@ -45,7 +45,7 @@ class ApiInterceptor extends Interceptor {
         final success = await _refreshTokenCompleter!.future;
 
         if (success) {
-          final accessToken = await getit<TokensSecureService>()
+          final accessToken = await getIt<TokensSecureService>()
               .getAccessToken();
 
           //debugPrint('Retrying original request...');
@@ -70,7 +70,7 @@ class ApiInterceptor extends Interceptor {
       // Create the queue for the incoming requests while refresh token process is in progress.
       _refreshTokenCompleter = Completer<bool>();
 
-      final refreshToken = await getit<TokensSecureService>().getRefreshToken();
+      final refreshToken = await getIt<TokensSecureService>().getRefreshToken();
 
       //debugPrint('Refresh Token: $refreshToken');
 
@@ -101,7 +101,7 @@ class ApiInterceptor extends Interceptor {
 
         final newRefreshToken = response.data[ApiKeys.refreshToken] as String?;
 
-        await getit<TokensSecureService>().saveTokens(
+        await getIt<TokensSecureService>().saveTokens(
           accessToken: newAccessToken!,
           refreshToken: newRefreshToken!,
         );
@@ -132,8 +132,8 @@ class ApiInterceptor extends Interceptor {
   }
 
   Future<void> _performLogout() async {
-    await getit<TokensSecureService>().clearTokens();
-    await getit<IsLoggedInService>().clearLoggedIn();
+    await getIt<TokensSecureService>().clearTokens();
+    await getIt<IsLoggedInService>().clearLoggedIn();
     // Where we can listen to this event in the app?
     // We can listen to this event in the main.dart, where we can navigate to the login screen
     // when the user is logged out due to token refresh failure.

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/functions/validate_auth_fields.dart';
+import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
@@ -34,8 +35,11 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _handleLogin() {
-    if (_formKey.currentState!.validate()) {}
-    log('Form is valid! Logging in ...');
+    if (_formKey.currentState!.validate()) {
+      context.pushReplacement(AppRoutes.profileSetup);
+    } else {
+      log('Form is invalid! try again');
+    }
   }
 
   @override

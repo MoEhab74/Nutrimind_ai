@@ -10,14 +10,24 @@ class OnboardingService {
 
   /// Checks if this is the user's first time opening the app.
   Future<bool> isFirstVisit() async {
-    final String? value = await _cacheHelper.getData(key: _firstVisitKey);
-    // If we haven't saved anything for this key yet, it's their first visit
+    final dynamic value = _cacheHelper.getData(key: _firstVisitKey);
+    // If a boolean is saved (e.g. false when onboarding is complete), return it.
+    // If nothing is saved yet (null), it's their first visit (true).
+    if (value is bool) {
+      return value;
+    }
     return value == null;
   }
 
   /// Marks the onboarding as completed so it won't show again.
   Future<void> completeOnboarding() async {
-    // Save a string value to indicate they are no longer a first-time visitor
-    await _cacheHelper.saveData(key: _firstVisitKey, value: 'false');
+    // Save a boolean value to indicate they are no longer a first-time visitor
+    await _cacheHelper.saveData(key: _firstVisitKey, value: false);
+  }
+
+  // Reset onBoarding visit
+  Future<void> resetOnboarding() async {
+    // Remove the value from cache to make it appear as a first-time visitor again
+    await _cacheHelper.removeData(key: _firstVisitKey);
   }
 }
