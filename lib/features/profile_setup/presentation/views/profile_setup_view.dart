@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
@@ -87,7 +91,8 @@ class ProfileSetupViewBody extends StatelessWidget {
                         ),
                         // Activity Step
                         ActivityStepBody(
-                          selectedActivity: state.profile.activity ??
+                          selectedActivity:
+                              state.profile.activity ??
                               ActivityLevel.moderatelyActive,
                           onActivityChanged: cubit.updateActivity,
                         ),
@@ -114,22 +119,35 @@ class ProfileSetupViewBody extends StatelessWidget {
                         ),
                         SizedBox(width: 12.w),
                       ],
-                      Expanded(
-                        flex: 2,
-                        child: AppButton(
-                          text: isLastStep ? 'Complete Profile' : 'Continue',
-                          icon: isLastStep
-                              ? const Icon(Icons.check_circle_outline)
-                              : const Icon(Icons.arrow_forward),
-                          onPressed: () {
-                            if (isLastStep) {
-                              // On onboarding complete
-                            } else {
-                              cubit.nextStep();
-                            }
-                          },
-                        ),
-                      ),
+                      state is ProfileSetupLoading
+                          ? const Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : Expanded(
+                              flex: 2,
+                              child: AppButton(
+                                text: isLastStep
+                                    ? 'Complete Profile'
+                                    : 'Continue',
+                                icon: isLastStep
+                                    ? const Icon(Icons.check_circle_outline)
+                                    : const Icon(Icons.arrow_forward),
+                                onPressed: () async {
+                                  if (isLastStep) {
+                                    await cubit.saveProfile();
+                                    if (context.mounted) {
+                                      context.pushReplacement(AppRoutes.home);
+                                    }
+                                    log('Profile Setup Completed');
+                                  } else {
+                                    cubit.nextStep();
+                                  }
+                                },
+                              ),
+                            ),
                     ],
                   ),
                 ],

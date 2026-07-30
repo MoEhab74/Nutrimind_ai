@@ -37,6 +37,9 @@ abstract class AppTextStyles {
   static TextStyle get semiBold28 =>
       _base(fontSize: 28, fontWeight: FontWeight.w600, height: 36 / 28);
 
+  static TextStyle get semiBold24 =>
+      _base(fontSize: 24, fontWeight: FontWeight.w600, height: 32 / 24);
+
   static TextStyle get semiBold20 =>
       _base(fontSize: 20, fontWeight: FontWeight.w600, height: 28 / 20);
 
@@ -45,6 +48,9 @@ abstract class AppTextStyles {
 
   static TextStyle get regular16 =>
       _base(fontSize: 16, fontWeight: FontWeight.w400, height: 24 / 16);
+
+  static TextStyle get regular14 =>
+      _base(fontSize: 14, fontWeight: FontWeight.w400, height: 20 / 14);
 
   static TextStyle get medium14 => _base(
     fontSize: 14,

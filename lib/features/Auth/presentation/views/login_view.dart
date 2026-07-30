@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
 import 'package:nutrimind_ai/core/functions/validate_auth_fields.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
@@ -12,6 +15,8 @@ import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 import 'package:nutrimind_ai/core/widgets/app_text_field_widget.dart';
 import 'package:nutrimind_ai/core/widgets/default_app_bar.dart';
+import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
+import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_state.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/widgets/social_auth_buttom_widget.dart';
 import 'package:nutrimind_ai/gen/assets.gen.dart';
 
@@ -36,7 +41,10 @@ class _LoginViewState extends State<LoginView> {
 
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
-      context.pushReplacement(AppRoutes.profileSetup);
+      context.read<AuthCubit>().signInWithEmailAndPassword(
+        emailAddress: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
     } else {
       log('Form is invalid! try again');
     }
@@ -111,10 +119,41 @@ class _LoginViewState extends State<LoginView> {
                   validator: validatePassword,
                 ),
                 const AppSizedBox(height: 32),
-                AppButton(
-                  text: 'Login',
-                  icon: Icon(Icons.arrow_forward, color: AppColors.onPrimary),
-                  onPressed: _handleLogin,
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is SignInSuccessState) {
+                      showAnimatedSnackbar(
+                        context,
+                        message: 'Login successful',
+                        type: AnimatedSnackBarType.success,
+                      );
+                      Future.delayed(const Duration(seconds: 2), () {
+                        if (context.mounted) {
+                          context.go(AppRoutes.greeting);
+                        }
+                      });
+                    } else if (state is SignInFailureState) {
+                      showAnimatedSnackbar(
+                        context,
+                        message: state.errorMessage,
+                        type: AnimatedSnackBarType.error,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return state is SignInLoadingState
+                        ? const CircularProgressIndicator(
+                            color: AppColors.primary,
+                          )
+                        : AppButton(
+                            text: 'Login',
+                            icon: Icon(
+                              Icons.arrow_forward,
+                              color: AppColors.onPrimary,
+                            ),
+                            onPressed: _handleLogin,
+                          );
+                  },
                 ),
                 const AppSizedBox(height: 32),
                 Row(

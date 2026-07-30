@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/routing/router_shell.dart';
 import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
 import 'package:nutrimind_ai/core/services/onboarding_service.dart';
+import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/views/login_view.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/views/register_view.dart';
 import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
@@ -11,6 +13,7 @@ import 'package:nutrimind_ai/features/history/presentation/views/history_view.da
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
 import 'package:nutrimind_ai/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:nutrimind_ai/features/profile/presentation/views/profile_view.dart';
+import 'package:nutrimind_ai/features/profile_setup/presentation/views/greeting_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/profile_setup_view.dart';
 import 'package:nutrimind_ai/features/splash/splash_view.dart';
 
@@ -48,12 +51,23 @@ abstract class AppRouter {
         GoRoute(
           path: AppRoutes.login,
           name: AppRoutes.login,
-          builder: (context, state) => const LoginView(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const LoginView(),
+          ),
         ),
         GoRoute(
           path: AppRoutes.register,
           name: AppRoutes.register,
-          builder: (context, state) => const RegisterView(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const RegisterView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutes.greeting,
+          name: AppRoutes.greeting,
+          builder: (context, state) => const GreetingView(),
         ),
         GoRoute(
           path: AppRoutes.profileSetup,

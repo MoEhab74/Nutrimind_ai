@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1050315893091",
+    "project_id": "nutrimind-ai-c9001",
+    "storage_bucket": "nutrimind-ai-c9001.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050315893091:android:a1e609670e316dd344cb56",
+        "android_client_info": {
+          "package_name": "com.example.nutrimind_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfQ3QR7gJsb2JWF33LbZfxlDEQXUMEUOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
