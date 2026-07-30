@@ -12,6 +12,7 @@ import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
 import 'package:nutrimind_ai/features/history/presentation/views/history_view.dart';
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
 import 'package:nutrimind_ai/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:nutrimind_ai/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:nutrimind_ai/features/profile/presentation/views/profile_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/greeting_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/profile_setup_view.dart';
@@ -110,7 +111,10 @@ abstract class AppRouter {
                 GoRoute(
                   path: AppRoutes.profile,
                   name: AppRoutes.profile,
-                  builder: (context, state) => const ProfileView(),
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => getIt<ProfileCubit>(),
+                    child: const ProfileView(),
+                  ),
                 ),
               ],
             ),

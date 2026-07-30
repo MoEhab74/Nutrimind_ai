@@ -1,6 +1,10 @@
-// GENERATED CODE - MANUAL HIVE ADAPTERS
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'profile_setup_model.dart';
+
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
 
 class ProfileSetupModelAdapter extends TypeAdapter<ProfileSetupModel> {
   @override
@@ -68,7 +72,7 @@ class GenderAdapter extends TypeAdapter<Gender> {
       case 2:
         return Gender.other;
       default:
-        return Gender.female;
+        return Gender.male;
     }
   }
 
@@ -160,7 +164,7 @@ class ActivityLevelAdapter extends TypeAdapter<ActivityLevel> {
       case 4:
         return ActivityLevel.veryActive;
       default:
-        return ActivityLevel.moderatelyActive;
+        return ActivityLevel.sedentary;
     }
   }
 

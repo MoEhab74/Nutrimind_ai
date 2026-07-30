@@ -28,21 +28,49 @@ class ProfileRepositoryImpl implements ProfileRepository {
         data['activityLevel'] = profile.activity!.name;
       }
 
-      await FirebaseFirestore.instance.collection('users').doc(userId).set(
-            data,
-            SetOptions(merge: true),
-          );
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .set(data, SetOptions(merge: true));
       log(
         'Complete profile setup and save it in the firestore with merge option to not overwritting user Auth data',
       );
     }
-    return local.saveProfile(profile);
+    return await local.saveProfile(profile);
   }
 
   @override
   ProfileSetupModel? getProfile() {
     log('Getting profile using repository');
     return local.getProfile();
+  }
+
+  @override
+  Future<bool> isProfileCompleted() async {
+    final cached = local.getProfile();
+    if (cached != null) return true;
+
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return false;
+
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      if (doc.exists && doc.data() != null) {
+        final data = doc.data()!;
+        if (data.containsKey('gender') ||
+            data.containsKey('age') ||
+            data.containsKey('weight') ||
+            data.containsKey('goal')) {
+          return true;
+        }
+      }
+    } catch (e) {
+      log('Error checking profile in Firestore: $e');
+    }
+    return false;
   }
 
   @override

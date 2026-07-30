@@ -30,7 +30,7 @@ void main() async {
   // Initialize cache helper
   await getIt.get<CacheHelper>().initCacheHelper();
   // clear the profile from hive box to test again
-  await Hive.box<ProfileSetupModel>('profile').clear();
+  // await Hive.box<ProfileSetupModel>('profile').clear();
 
   runApp(const MyApp());
 }

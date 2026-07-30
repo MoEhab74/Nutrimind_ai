@@ -5,5 +5,7 @@ abstract interface class ProfileRepository {
 
   ProfileSetupModel? getProfile();
 
+  Future<bool> isProfileCompleted();
+
   Future<void> clearProfile();
 }
