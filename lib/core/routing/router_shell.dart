@@ -72,8 +72,10 @@ class RouterShell extends StatelessWidget {
             ),
           ),
           // Floating action button for Scanner
-          Positioned(
-            bottom: 56.h,
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            bottom: currentIndex == 1 ? 40.h : 56.h,
             child: GestureDetector(
               onTap: () {
                 navigationShell.goBranch(
@@ -81,9 +83,11 @@ class RouterShell extends StatelessWidget {
                   initialLocation: currentIndex == scannerBranchIndex,
                 );
               },
-              child: Container(
-                width: 56.w,
-                height: 56.w,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                width: currentIndex == 1 ? 40.w : 56.w,
+                height: currentIndex == 1 ? 40.w : 56.w,
                 decoration: const BoxDecoration(
                   color: AppColors.primary,
                   shape: BoxShape.circle,
@@ -98,7 +102,7 @@ class RouterShell extends StatelessWidget {
                 child: Center(
                   child: HugeIcon(
                     icon: HugeIcons.strokeRoundedQrCode,
-                    size: 26.w,
+                    size: currentIndex == 1 ? 14.w : 26.w,
                     color: AppColors.onPrimary,
                   ),
                 ),
