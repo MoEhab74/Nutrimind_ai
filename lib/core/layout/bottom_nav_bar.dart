@@ -9,7 +9,7 @@ class BottomNavBar extends StatefulWidget {
     required this.onTap,
   });
 
-  final int currentIndex;
+  final int? currentIndex;
   final ValueChanged<int> onTap;
 
   @override
@@ -17,7 +17,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  late int _highlightedIndex;
+  int? _highlightedIndex;
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           child: NavigationBar(
             backgroundColor: Colors.transparent,
             height: 64.h,
-            selectedIndex: _highlightedIndex,
+            selectedIndex: _highlightedIndex ?? 0,
             onDestinationSelected: widget.onTap,
             labelTextStyle: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {

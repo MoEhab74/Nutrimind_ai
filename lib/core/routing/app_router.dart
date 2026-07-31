@@ -10,12 +10,14 @@ import 'package:nutrimind_ai/features/Auth/presentation/views/login_view.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/views/register_view.dart';
 import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
 import 'package:nutrimind_ai/features/history/presentation/views/history_view.dart';
+import 'package:nutrimind_ai/features/home/presentation/manager/cubit/home_cubit.dart';
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
 import 'package:nutrimind_ai/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:nutrimind_ai/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:nutrimind_ai/features/profile/presentation/views/profile_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/greeting_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/profile_setup_view.dart';
+import 'package:nutrimind_ai/features/scanner/presentation/views/scanner_view.dart';
 import 'package:nutrimind_ai/features/splash/splash_view.dart';
 
 abstract class AppRouter {
@@ -84,7 +86,10 @@ abstract class AppRouter {
                 GoRoute(
                   path: AppRoutes.home,
                   name: AppRoutes.home,
-                  builder: (context, state) => const HomeView(),
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => getIt<HomeCubit>()..getNutrition(),
+                    child: const HomeView(),
+                  ),
                 ),
               ],
             ),
@@ -94,6 +99,16 @@ abstract class AppRouter {
                   path: AppRoutes.chat,
                   name: AppRoutes.chat,
                   builder: (context, state) => const ChatView(),
+                ),
+              ],
+            ),
+
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: AppRoutes.scanner,
+                  name: AppRoutes.scanner,
+                  builder: (context, state) => const ScannerView(),
                 ),
               ],
             ),
@@ -112,7 +127,7 @@ abstract class AppRouter {
                   path: AppRoutes.profile,
                   name: AppRoutes.profile,
                   builder: (context, state) => BlocProvider(
-                    create: (context) => getIt<ProfileCubit>(),
+                    create: (context) => getIt<ProfileCubit>()..getUserData(),
                     child: const ProfileView(),
                   ),
                 ),

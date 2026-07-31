@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:nutrimind_ai/core/services/nutrition_calculation.dart';
 import 'package:nutrimind_ai/core/shared/models/nutrition_model.dart';
-import 'package:nutrimind_ai/core/shared/repos/nutrition_calculation_repo.dart';
+import 'package:nutrimind_ai/core/shared/repos/nutrition_repo/nutrition_calculation_repo.dart';
 import 'package:nutrimind_ai/features/profile_setup/data/models/profile_setup_model.dart';
 import 'package:nutrimind_ai/features/profile_setup/data/repos/profile_setup_repo.dart';
 

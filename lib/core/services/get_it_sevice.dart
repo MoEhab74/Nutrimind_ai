@@ -11,9 +11,14 @@ import 'package:nutrimind_ai/core/services/is_logged_in_service.dart';
 import 'package:nutrimind_ai/core/services/nutrition_calculation.dart';
 import 'package:nutrimind_ai/core/services/onboarding_service.dart';
 import 'package:nutrimind_ai/core/services/tokens_secure_service.dart';
-import 'package:nutrimind_ai/core/shared/repos/nutrition_calculation_repo.dart';
-import 'package:nutrimind_ai/core/shared/repos/nutrition_calculation_repo_impl.dart';
+import 'package:nutrimind_ai/core/shared/repos/nutrition_repo/nutrition_calculation_repo.dart';
+import 'package:nutrimind_ai/core/shared/repos/nutrition_repo/nutrition_calculation_repo_impl.dart';
+import 'package:nutrimind_ai/core/shared/repos/user_repo/user_repo.dart';
+import 'package:nutrimind_ai/core/shared/repos/user_repo/user_repo_impl.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
+import 'package:nutrimind_ai/features/home/data/repos/home_repo.dart';
+import 'package:nutrimind_ai/features/home/data/repos/home_repo_impl.dart';
+import 'package:nutrimind_ai/features/home/presentation/manager/cubit/home_cubit.dart';
 import 'package:nutrimind_ai/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:nutrimind_ai/features/profile_setup/data/data_source/profile_local_data_source.dart';
 import 'package:nutrimind_ai/features/profile_setup/data/data_source/profile_local_data_source_impl.dart';
@@ -57,15 +62,11 @@ void setupGetIt() {
     () => ProfileRepositoryImpl(getIt<ProfileLocalDataSource>()),
   );
   // Auth
-  getIt.registerFactory<AuthCubit>(
-    () => AuthCubit(),
-  );
+  getIt.registerFactory<AuthCubit>(() => AuthCubit());
   // register firebase auth instance on the whole app
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   // register Nutrition Calculation
-  getIt.registerLazySingleton<NutritionCalculator>(
-    () => NutritionCalculator(),
-  );
+  getIt.registerLazySingleton<NutritionCalculator>(() => NutritionCalculator());
   // register NutritionCalculation repo
   getIt.registerLazySingleton<NutritionCalculationRepo>(
     () => NutritionRepoImpl(
@@ -75,8 +76,28 @@ void setupGetIt() {
   );
   // register profile cubit
   getIt.registerFactory<ProfileCubit>(
-    () => ProfileCubit(getIt<NutritionCalculationRepo>()),
+    () => ProfileCubit(
+      getIt<NutritionCalculationRepo>(),
+      userRepository: getIt<UserRepository>(),
+    ),
   );
   // Firebase Firestore
-    getIt.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
+  getIt.registerLazySingleton<FirebaseFirestore>(
+    () => FirebaseFirestore.instance,
+  );
+  // HomeRepo
+  getIt.registerLazySingleton<HomeRepository>(
+    () => HomeRepoImpl(getIt<NutritionCalculationRepo>()),
+  );
+  // HomeCub
+  getIt.registerFactory<HomeCubit>(
+    () => HomeCubit(
+      homeRepository: getIt<HomeRepository>(),
+      userRepository: getIt<UserRepository>(),
+    ),
+  );
+  // User repo
+  getIt.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(getIt<FirebaseFirestore>(), getIt<FirebaseAuth>()),
+  );
 }

@@ -10,5 +10,6 @@ abstract class AppRoutes {
   static const chat = '/chat';
   static const greeting = '/greeting';
   static const profileSetup = '/profileSetup';
+  static const scanner = '/scanner';
 
 }
