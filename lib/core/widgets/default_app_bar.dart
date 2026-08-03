@@ -5,7 +5,12 @@ import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const DefaultAppBar({super.key, required this.title});
+  final bool showBackButton;
+  const DefaultAppBar({
+    super.key,
+    required this.title,
+    required this.showBackButton,
+  });
 
   @override
   Widget build(BuildContext context) {

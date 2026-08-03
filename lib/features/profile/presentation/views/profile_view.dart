@@ -8,6 +8,7 @@ import 'package:nutrimind_ai/features/home/data/models/user_model.dart';
 import 'package:nutrimind_ai/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:nutrimind_ai/features/profile/presentation/manager/profile_state.dart';
 import 'package:nutrimind_ai/features/profile/presentation/widgets/dark_mode_switch_widget.dart';
+import 'package:nutrimind_ai/features/profile/presentation/widgets/logout_button_widget.dart';
 import 'package:nutrimind_ai/features/profile/presentation/widgets/notification_switch_widget.dart';
 import 'package:nutrimind_ai/features/profile/presentation/widgets/profile_avatar_widget.dart';
 import 'package:nutrimind_ai/features/profile/presentation/widgets/profile_state_card.dart';
@@ -44,9 +45,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopAppBar(
-        title: "Profile",
-      ),
+      appBar: const TopAppBar(title: "Profile"),
       body: SafeArea(
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
@@ -186,15 +185,15 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     child: Column(
                       children: [
-                        ProfileTileOption(
+                        const ProfileTileOption(
                           icon: Icons.notifications_none_outlined,
                           title: 'Notifications',
-                          trailing: const NotificationsSwitch(),
+                          trailing: NotificationsSwitch(),
                         ),
-                        ProfileTileOption(
+                        const ProfileTileOption(
                           icon: Icons.nightlight_round_outlined,
                           title: 'Dark Mode',
-                          trailing: const DarkModeSwitch(),
+                          trailing: DarkModeSwitch(),
                         ),
                         ProfileTileOption(
                           icon: Icons.translate_outlined,
@@ -223,23 +222,8 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
 
                   SizedBox(height: 12.h),
-                  // Support & Logout Group
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceLow,
-                      borderRadius: BorderRadius.circular(24.r),
-                    ),
-                    child: ProfileTileOption(
-                      icon: Icons.logout_rounded,
-                      title: 'Logout',
-                      isDangerColor: AppColors.error,
-                      onTap: () {},
-                    ),
-                  ),
+                  // Logout Group
+                  const LogoutButtonWidget(),
                   SizedBox(height: 20.h),
                 ],
               ),

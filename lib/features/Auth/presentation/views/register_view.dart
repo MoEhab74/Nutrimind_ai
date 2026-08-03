@@ -14,7 +14,6 @@ import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 import 'package:nutrimind_ai/core/widgets/app_text_field_widget.dart';
-import 'package:nutrimind_ai/core/widgets/default_app_bar.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_state.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/widgets/social_auth_buttom_widget.dart';
@@ -61,8 +60,6 @@ class _RegisterViewState extends State<RegisterView> {
         emailAddress: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      log('User has been registered by Firebase Auth');
-      context.pushReplacement(AppRoutes.login);
     }
   }
 
@@ -70,7 +67,17 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const DefaultAppBar(title: 'Create Account'),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'Create Account',
+          style: AppTextStyles.semiBold20.copyWith(
+            color: AppColors.onBackground,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -175,18 +182,20 @@ class _RegisterViewState extends State<RegisterView> {
                         message: 'User registered successfully',
                         type: AnimatedSnackBarType.success,
                       );
+                      log('User has been registered by Firebase Auth');
+                      context.pushReplacement(AppRoutes.login);
                     }
                   },
                   builder: (context, state) {
                     return state is SignUpLoadingState
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(
                               color: AppColors.primary,
                             ),
                           )
                         : AppButton(
                             text: 'Create Account',
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_forward,
                               color: AppColors.onPrimary,
                             ),

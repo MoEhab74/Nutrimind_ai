@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:nutrimind_ai/core/api/api_endpoints.dart';
 import 'package:nutrimind_ai/core/cache/cache_helper.dart';
 import 'package:nutrimind_ai/core/routing/app_router.dart';
 import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
@@ -9,12 +11,20 @@ import 'package:nutrimind_ai/core/theme/themes/app_themes.dart';
 import 'package:nutrimind_ai/core/utils/app_constants.dart';
 import 'package:nutrimind_ai/features/profile_setup/data/models/profile_setup_model.dart';
 import 'package:nutrimind_ai/firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   // Make sure that everything is ready before running the app
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize .env
+  await dotenv.load(fileName: ".env");
   // Initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Initialize Supabase
+  await Supabase.initialize(
+    url: ApiEndpoints.supabaseUrl,
+    publishableKey: ApiKeys.supabaseAnonKey,
+  );
   // Initialize Hive
   await Hive.initFlutter();
   Hive.registerAdapter(ProfileSetupModelAdapter());

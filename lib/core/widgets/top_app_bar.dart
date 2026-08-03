@@ -9,7 +9,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +17,24 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
       surfaceTintColor: Colors.transparent,
-      leadingWidth: 120.w,
+      leadingWidth: 180.w,
       leading: Padding(
-        padding: EdgeInsets.only(left: 16.w),
+        padding: EdgeInsetsDirectional.only(start: 16.w),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(Assets.images.logo.path, height: 24.h, width: 32.w),
             SizedBox(width: 4.w),
-            Text(
-              title,
-              style: AppTextStyles.semiBold20.copyWith(
-                color: AppColors.primary,
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  title,
+                  style: AppTextStyles.semiBold20.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
               ),
             ),
           ],
@@ -35,7 +42,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: 16.w),
+          padding: EdgeInsetsDirectional.only(end: 16.w),
           child: ClipOval(
             child: Image.asset(
               Assets.images.profile.path,

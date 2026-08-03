@@ -122,9 +122,7 @@ class ProfileSetupViewBody extends StatelessWidget {
                       state is ProfileSetupLoading
                           ? const Expanded(
                               flex: 1,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                              child: Center(child: CircularProgressIndicator()),
                             )
                           : Expanded(
                               flex: 2,

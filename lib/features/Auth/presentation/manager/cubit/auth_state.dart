@@ -19,3 +19,13 @@ final class SignInFailureState extends AuthState {
   final String errorMessage;
   SignInFailureState(this.errorMessage);
 }
+
+final class SignOutLoadingState extends AuthState {}
+
+final class SignOutSuccessState extends AuthState {}
+
+final class SignOutFailureState extends AuthState {
+  final String errorMessage;
+  SignOutFailureState(this.errorMessage);
+}
+

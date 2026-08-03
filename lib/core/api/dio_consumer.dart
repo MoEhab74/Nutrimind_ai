@@ -2,13 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:nutrimind_ai/core/errors/server_exception.dart';
 import 'package:nutrimind_ai/core/api/api_consumer.dart';
 import 'package:nutrimind_ai/core/api/api_endpoints.dart';
-import 'package:nutrimind_ai/core/api/api_interceptors.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = ApiEndpoints.baseUrl;
-    dio.interceptors.add(ApiInterceptor(dio));
+    // dio.interceptors.add(ApiInterceptor(dio));
     dio.interceptors.add(
       LogInterceptor(
         request: true,

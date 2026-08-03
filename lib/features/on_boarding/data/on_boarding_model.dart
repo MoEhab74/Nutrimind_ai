@@ -12,7 +12,7 @@ class BoardingModel {
   final String subtitle;
 }
 
-  List<BoardingModel> kBoardingPages = [
+List<BoardingModel> kBoardingPages = [
   BoardingModel(
     image: Assets.images.onBoarding1.path,
     title: 'Track Your Daily Progress',

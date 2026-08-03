@@ -25,7 +25,7 @@ class TermsAndConditionsCheckbox extends StatelessWidget {
             onChanged: onChanged,
             activeColor: AppColors.primary,
             checkColor: AppColors.onPrimary,
-            side: BorderSide(color: AppColors.border, width: 1.5),
+            side: const BorderSide(color: AppColors.border, width: 1.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4.r),
             ),

@@ -7,7 +7,7 @@ class NutritionCalculator {
     final double weight = profile.weight ?? 70.0; // kg
     
     // Convert height if provided in meters (e.g. 1.7 -> 170 cm)
-    double rawHeight = profile.height ?? 170.0;
+    final double rawHeight = profile.height ?? 170.0;
     final double heightInCm = rawHeight < 3.0 ? rawHeight * 100 : rawHeight;
     
     final int age = profile.age ?? 25;
@@ -63,19 +63,19 @@ class NutritionCalculator {
 
     // 5. Calculate Macros (in grams)
     // Protein: 1.8g per kg body weight
-    int proteinGrams = (1.8 * weight).round();
+    final int proteinGrams = (1.8 * weight).round();
 
     // Fat: 25% of total calories (1g fat = 9 kcal)
-    int fatGrams = ((dailyCalories * 0.25) / 9).round();
+    final int fatGrams = ((dailyCalories * 0.25) / 9).round();
 
     // Carbs: Remaining calories (1g carb = 4 kcal)
-    double remainingCalories = dailyCalories - (proteinGrams * 4) - (fatGrams * 9);
-    int carbsGrams = (remainingCalories / 4).clamp(0.0, double.infinity).round();
+    final double remainingCalories = dailyCalories - (proteinGrams * 4) - (fatGrams * 9);
+    final int carbsGrams = (remainingCalories / 4).clamp(0.0, double.infinity).round();
 
     // 6. Water, Fiber, and Sugar targets
-    int waterMl = (weight * 35).round(); // 35ml per kg
-    int fiberGrams = (gender == Gender.male) ? 38 : 25;
-    int sugarGrams = ((dailyCalories * 0.05) / 4).round(); // Max 5% of daily calories from added sugar
+    final int waterMl = (weight * 35).round(); // 35ml per kg
+    final int fiberGrams = (gender == Gender.male) ? 38 : 25;
+    final int sugarGrams = ((dailyCalories * 0.05) / 4).round(); // Max 5% of daily calories from added sugar
 
     return NutritionModel(
       calories: dailyCalories.round(),

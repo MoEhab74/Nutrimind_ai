@@ -12,12 +12,26 @@ class NotificationsSwitch extends StatefulWidget {
 
 class _NotificationsSwitchState extends State<NotificationsSwitch> {
   bool _notificationsEnabled = false;
+
   @override
   Widget build(BuildContext context) {
-    log('NotificationsSwitch has been rebuild');
+    log('NotificationsSwitch has been rebuilt');
     return Switch.adaptive(
       value: _notificationsEnabled,
-      activeThumbColor: AppColors.primary,
+      trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return Colors.transparent;
+        }
+        return AppColors.outlineVariant;
+      }),
+      trackOutlineWidth: WidgetStateProperty.all(1.2),
+
+      activeThumbColor: AppColors.onPrimary,
+      activeTrackColor: AppColors.primary,
+
+      inactiveThumbColor: AppColors.outline,
+      inactiveTrackColor: AppColors.surfaceLow,
+
       onChanged: (val) => setState(() => _notificationsEnabled = val),
     );
   }

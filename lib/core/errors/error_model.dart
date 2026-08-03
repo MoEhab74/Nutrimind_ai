@@ -1,4 +1,3 @@
-import 'package:nutrimind_ai/core/api/api_endpoints.dart';
 
 class ErrorModel {
   // These fields should match the structure of the error response from your API
@@ -8,7 +7,10 @@ class ErrorModel {
   ErrorModel({required this.message, this.statusCode});
 
   factory ErrorModel.fromJson(Map<String, dynamic> json) => ErrorModel(
-    message: json[ApiKeys.message],
-    statusCode: json[ApiKeys.statusCode],
-  );
+        message: json['message'] ??
+            (json['error'] is Map ? json['error']['message'] : null) ??
+            'An error occurred. Please try again.',
+        statusCode: json['statusCode'] ??
+            (json['error'] is Map ? json['error']['code'] : null),
+      );
 }

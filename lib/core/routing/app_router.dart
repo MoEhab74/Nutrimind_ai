@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/routing/router_shell.dart';
 import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
@@ -8,16 +9,21 @@ import 'package:nutrimind_ai/core/services/onboarding_service.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/views/login_view.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/views/register_view.dart';
+import 'package:nutrimind_ai/features/chat/presentation/manager/cubit/chat_cubit.dart';
 import 'package:nutrimind_ai/features/chat/presentation/views/chat_view.dart';
+import 'package:nutrimind_ai/features/history/presentation/manager/cubit/history_cubit.dart';
 import 'package:nutrimind_ai/features/history/presentation/views/history_view.dart';
-import 'package:nutrimind_ai/features/home/presentation/manager/cubit/home_cubit.dart';
+import 'package:nutrimind_ai/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:nutrimind_ai/features/home/presentation/manager/home_meals_cubit/home_meals_cubit.dart';
 import 'package:nutrimind_ai/features/home/presentation/views/home_view.dart';
 import 'package:nutrimind_ai/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:nutrimind_ai/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:nutrimind_ai/features/profile/presentation/views/profile_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/greeting_view.dart';
 import 'package:nutrimind_ai/features/profile_setup/presentation/views/profile_setup_view.dart';
-import 'package:nutrimind_ai/features/scanner/presentation/views/scanner_view.dart';
+import 'package:nutrimind_ai/features/scanner/data/models/food_model.dart';
+import 'package:nutrimind_ai/features/scanner/presentation/manager/meal_cubit/meal_cubit.dart';
+import 'package:nutrimind_ai/features/scanner/presentation/views/scan_result_view.dart';
 import 'package:nutrimind_ai/features/splash/splash_view.dart';
 
 abstract class AppRouter {
@@ -77,6 +83,37 @@ abstract class AppRouter {
           name: AppRoutes.profileSetup,
           builder: (context, state) => const ProfileSetupView(),
         ),
+        GoRoute(
+          path: AppRoutes.scanResult,
+          name: AppRoutes.scanResult,
+          builder: (context, state) {
+            final extra = state.extra;
+            if (extra is Map<String, dynamic>) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (context) => getIt<MealCubit>()),
+                  BlocProvider.value(value: getIt<HomeMealsCubit>()),
+                ],
+                child: ScanResultView(
+                  foodModel: extra['foodModel'] as FoodModel,
+                  image: extra['image'] as XFile?,
+                ),
+              );
+            } else if (extra is FoodModel) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (context) => getIt<MealCubit>()),
+                  BlocProvider.value(value: getIt<HomeMealsCubit>()),
+                ],
+                child: ScanResultView(foodModel: extra),
+              );
+            }
+            // Default to empty state or throw error if data is missing
+            return const Scaffold(
+              body: Center(child: Text('No food data available')),
+            );
+          },
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>
               RouterShell(navigationShell: navigationShell),
@@ -86,8 +123,15 @@ abstract class AppRouter {
                 GoRoute(
                   path: AppRoutes.home,
                   name: AppRoutes.home,
-                  builder: (context, state) => BlocProvider(
-                    create: (context) => getIt<HomeCubit>()..getNutrition(),
+                  builder: (context, state) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => getIt<HomeCubit>()..getNutrition(),
+                      ),
+                      BlocProvider.value(
+                        value: getIt<HomeMealsCubit>()..getAllMeals(),
+                      ),
+                    ],
                     child: const HomeView(),
                   ),
                 ),
@@ -98,17 +142,10 @@ abstract class AppRouter {
                 GoRoute(
                   path: AppRoutes.chat,
                   name: AppRoutes.chat,
-                  builder: (context, state) => const ChatView(),
-                ),
-              ],
-            ),
-
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: AppRoutes.scanner,
-                  name: AppRoutes.scanner,
-                  builder: (context, state) => const ScannerView(),
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => getIt<ChatCubit>(),
+                    child: const ChatView(),
+                  ),
                 ),
               ],
             ),
@@ -117,7 +154,12 @@ abstract class AppRouter {
                 GoRoute(
                   path: AppRoutes.history,
                   name: AppRoutes.history,
-                  builder: (context, state) => const HistoryView(),
+                  builder: (context, state) => BlocProvider(
+                    create: (context) =>
+                        getIt<HistoryMealsCubit>()
+                          ..getAllMealsOrderedByMealDate(),
+                    child: const HistoryView(),
+                  ),
                 ),
               ],
             ),
@@ -126,8 +168,14 @@ abstract class AppRouter {
                 GoRoute(
                   path: AppRoutes.profile,
                   name: AppRoutes.profile,
-                  builder: (context, state) => BlocProvider(
-                    create: (context) => getIt<ProfileCubit>()..getUserData(),
+                  builder: (context, state) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) =>
+                            getIt<ProfileCubit>()..getUserData(),
+                      ),
+                      BlocProvider.value(value: getIt<AuthCubit>()),
+                    ],
                     child: const ProfileView(),
                   ),
                 ),

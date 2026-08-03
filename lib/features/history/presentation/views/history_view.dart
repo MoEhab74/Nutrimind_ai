@@ -1,16 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:nutrimind_ai/core/routing/app_routes.dart';
+import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
+import 'package:nutrimind_ai/features/history/presentation/manager/cubit/history_cubit.dart';
+import 'package:nutrimind_ai/features/history/presentation/widgets/meal_card_widget.dart';
+import 'package:nutrimind_ai/features/scanner/data/models/food_model.dart';
 
-class HistoryView extends StatelessWidget {
+class HistoryView extends StatefulWidget {
   const HistoryView({super.key});
 
   @override
+  State<HistoryView> createState() => _HistoryViewState();
+}
+
+class _HistoryViewState extends State<HistoryView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HistoryMealsCubit>().getAllMealsOrderedByMealDate();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "History",
-        style: AppTextStyles.semiBold20.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
+    return Scaffold(
+      appBar: const TopAppBar(title: 'History'),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          child: BlocBuilder<HistoryMealsCubit, HistoryMealsState>(
+            builder: (context, state) {
+              if (state is HistoryMealsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is HistoryMealsError) {
+                return Center(child: Text(state.errorMessage));
+              }
+              if (state is HistoryMealsSuccess) {
+                return ListView.builder(
+                  itemCount: state.meals.length,
+                  itemBuilder: (context, index) {
+                    return MealCardWidget(
+                      mealModel: state.meals[index],
+                      onTap: () {
+                        // Convert MealModel to FoodModel
+                        final foodModel = FoodModel.fromMealModel(
+                          state.meals[index],
+                        );
+                        // Get the XFile image
+                        final image = XFile(state.meals[index].mealImageUrl);
+                        // Navigate to ScanResultView via go_router
+                        context.push(
+                          AppRoutes.scanResult,
+                          extra: {'foodModel': foodModel, 'image': image},
+                        );
+                      },
+                    );
+                  },
+                );
+              } else {
+                return const Center(child: Text('No meals found'));
+              }
+            },
+          ),
         ),
       ),
     );

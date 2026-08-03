@@ -15,9 +15,11 @@ import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 import 'package:nutrimind_ai/core/widgets/app_text_field_widget.dart';
 import 'package:nutrimind_ai/core/widgets/default_app_bar.dart';
+import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_state.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/widgets/social_auth_buttom_widget.dart';
+import 'package:nutrimind_ai/features/profile_setup/data/repos/profile_setup_repo.dart';
 import 'package:nutrimind_ai/gen/assets.gen.dart';
 
 class LoginView extends StatefulWidget {
@@ -54,7 +56,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const DefaultAppBar(title: 'Login'),
+      appBar: const DefaultAppBar(title: 'Login', showBackButton: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -127,8 +129,14 @@ class _LoginViewState extends State<LoginView> {
                         message: 'Login successful',
                         type: AnimatedSnackBarType.success,
                       );
-                      Future.delayed(const Duration(seconds: 2), () {
-                        if (context.mounted) {
+                      Future.delayed(const Duration(seconds: 1), () async {
+                        if (!context.mounted) return;
+                        final isCompleted = await getIt<ProfileRepository>()
+                            .isProfileCompleted();
+                        if (!context.mounted) return;
+                        if (isCompleted) {
+                          context.go(AppRoutes.home);
+                        } else {
                           context.go(AppRoutes.greeting);
                         }
                       });
@@ -147,7 +155,7 @@ class _LoginViewState extends State<LoginView> {
                           )
                         : AppButton(
                             text: 'Login',
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_forward,
                               color: AppColors.onPrimary,
                             ),

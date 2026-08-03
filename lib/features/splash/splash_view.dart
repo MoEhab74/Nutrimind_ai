@@ -45,7 +45,7 @@ class _SplashViewState extends State<SplashView> {
           }
         } else {
           log('User not Authenticated');
-          context.pushReplacement(AppRoutes.login);
+          context.pushReplacement(AppRoutes.register);
         }
       }
     });

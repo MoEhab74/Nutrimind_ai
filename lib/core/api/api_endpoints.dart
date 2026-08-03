@@ -1,19 +1,22 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiEndpoints {
-  static const String baseUrl = 'https://api.escuelajs.co/api/v1/';
-  static const String login = 'auth/login';
-  static const String createUser = 'users/';
-  static const String refreshToken = 'auth/refresh-token';
-  static const String profile = 'auth/profile';
-  static const String products = 'products';
-  static const String categories = 'categories';
-  static String productsByCategory(String categoryId) {
-    return 'products/?categoryId=$categoryId';
-  }
+  // Gemini API base url
+  static const String baseUrl =
+      'https://generativelanguage.googleapis.com/v1beta/models/${ApiKeys.geminiFlashLite}:generateContent?key=';
+  // Supabase API url
+  static const String supabaseUrl = 'https://hxmrjzicbpvzpjsbazwc.supabase.co';
 }
 
 class ApiKeys {
-  static const String message = 'message';
-  static const String statusCode = 'statusCode';
-  static const String accessToken = 'access_token';
-  static const String refreshToken = 'refresh_token';
+  // Gemini API key
+  static String? apiKey = dotenv.env['GEMINI_API_KEY'];
+
+  // Supabase API anon key
+  static String? supabaseAnonKey = dotenv.env['SUPABSAE_API_ANON_KEY'];
+  // Models
+  static const String geminiPro = "gemini-3-pro";
+  static const String geminiFlash = "gemini-1.5-flash";
+  static const String geminiFlashLite = "gemini-3.1-flash-lite";
+  static const String gemini2Flash = "gemini-2.5-flash";
 }

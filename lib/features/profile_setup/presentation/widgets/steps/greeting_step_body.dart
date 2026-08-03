@@ -10,10 +10,7 @@ import 'package:nutrimind_ai/gen/assets.gen.dart';
 class GreetingStepBody extends StatelessWidget {
   final VoidCallback onStart;
 
-  const GreetingStepBody({
-    super.key,
-    required this.onStart,
-  });
+  const GreetingStepBody({super.key, required this.onStart});
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +63,7 @@ class GreetingStepBody extends StatelessWidget {
                     padding: EdgeInsets.all(20.r),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16.r),
-                      child: Assets.images.onBoarding1.image(
-                        fit: BoxFit.cover,
-                      ),
+                      child: Assets.images.onBoarding1.image(fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -115,7 +110,10 @@ class GreetingStepBody extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 16.h,
+                    horizontal: 12.w,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceLow,
                     borderRadius: BorderRadius.circular(16.r),
@@ -149,7 +147,10 @@ class GreetingStepBody extends StatelessWidget {
               SizedBox(width: 16.w),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 16.h,
+                    horizontal: 12.w,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceLow,
                     borderRadius: BorderRadius.circular(16.r),
