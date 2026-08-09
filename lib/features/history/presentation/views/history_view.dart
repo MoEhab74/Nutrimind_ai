@@ -5,8 +5,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/history/presentation/manager/cubit/history_cubit.dart';
+import 'package:nutrimind_ai/features/history/presentation/widgets/empty_state_widget.dart';
 import 'package:nutrimind_ai/features/history/presentation/widgets/meal_card_widget.dart';
 import 'package:nutrimind_ai/features/scanner/data/models/food_model.dart';
+import 'package:nutrimind_ai/features/scanner/presentation/widgets/choose_bottom_sheet_widget.dart';
 
 class HistoryView extends StatefulWidget {
   const HistoryView({super.key});
@@ -38,6 +40,21 @@ class _HistoryViewState extends State<HistoryView> {
                 return Center(child: Text(state.errorMessage));
               }
               if (state is HistoryMealsSuccess) {
+                // If list is empty first show empty state widget
+                if (state.meals.isEmpty) {
+                  return EmptyStateWidget(
+                    title: 'No meals found',
+                    message: 'You have not added any meals yet',
+                    buttonText: 'Scan Meal',
+                    onButtonPressed: () {
+                      // Show Scan Bottom Sheet Widget
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => const ChooseBottomSheetWidget(),
+                      );
+                    },
+                  );
+                }
                 return ListView.builder(
                   itemCount: state.meals.length,
                   itemBuilder: (context, index) {
@@ -60,7 +77,18 @@ class _HistoryViewState extends State<HistoryView> {
                   },
                 );
               } else {
-                return const Center(child: Text('No meals found'));
+                return EmptyStateWidget(
+                  title: 'No meals found',
+                  message: 'You have not added any meals yet',
+                  buttonText: 'Scan Meal',
+                  onButtonPressed: () {
+                    // Show Scan Bottom Sheet Widget
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => const ChooseBottomSheetWidget(),
+                    );
+                  },
+                );
               }
             },
           ),
@@ -69,3 +97,4 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 }
+

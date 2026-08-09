@@ -20,6 +20,9 @@ class DetailedBreakdownRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final effectiveProgressColor = progressColor == AppColors.primary ? colorScheme.primary : progressColor;
+
     return Column(
       children: [
         Row(
@@ -28,14 +31,14 @@ class DetailedBreakdownRow extends StatelessWidget {
             Text(
               label,
               style: AppTextStyles.medium14.copyWith(
-                color: AppColors.onSurface,
+                color: colorScheme.onSurface,
                 fontSize: 13.sp,
               ),
             ),
             Text(
               valueText,
               style: AppTextStyles.semiBold12.copyWith(
-                color: progressColor == AppColors.error ? AppColors.error : AppColors.outline,
+                color: effectiveProgressColor == colorScheme.error ? colorScheme.error : colorScheme.outline,
                 fontSize: 12.sp,
               ),
             ),
@@ -47,8 +50,8 @@ class DetailedBreakdownRow extends StatelessWidget {
           child: LinearProgressIndicator(
             value: progress.clamp(0.0, 1.0),
             minHeight: 8.h,
-            backgroundColor: AppColors.surfaceContainer,
-            color: progressColor,
+            backgroundColor: colorScheme.surfaceContainer,
+            color: effectiveProgressColor,
           ),
         ),
       ],

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:nutrimind_ai/core/shared/models/meal_model.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class MealCardWidget extends StatelessWidget {
@@ -26,16 +25,17 @@ class MealCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLowest,
+        color: colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(24.r),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: AppColors.shadow,
+            color: colorScheme.shadow,
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -57,10 +57,10 @@ class MealCardWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     height: 160.h,
-                    color: AppColors.surfaceContainer,
+                    color: colorScheme.surfaceContainer,
                     child: Icon(
                       Icons.restaurant,
-                      color: AppColors.outline,
+                      color: colorScheme.outline,
                       size: 40.w,
                     ),
                   ),
@@ -81,7 +81,7 @@ class MealCardWidget extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.semiBold16.copyWith(
-                              color: AppColors.onSurface,
+                              color: colorScheme.onSurface,
                               height: 1.2,
                             ),
                           ),
@@ -90,7 +90,7 @@ class MealCardWidget extends StatelessWidget {
                         Text(
                           '${mealModel.mealCalories} kcal',
                           style: AppTextStyles.semiBold20.copyWith(
-                            color: AppColors.onSurface,
+                            color: colorScheme.onSurface,
                           ),
                         ),
                       ],
@@ -104,14 +104,14 @@ class MealCardWidget extends StatelessWidget {
                           children: [
                             HugeIcon(
                               icon: HugeIcons.strokeRoundedClock01,
-                              color: AppColors.outline,
+                              color: colorScheme.outline,
                               size: 16.w,
                             ),
                             SizedBox(width: 4.w),
                             Text(
                               _formatMealDate(mealModel.mealDate),
                               style: AppTextStyles.medium14.copyWith(
-                                color: AppColors.outline,
+                                color: colorScheme.outline,
                                 fontSize: 12.sp,
                               ),
                             ),
@@ -120,7 +120,7 @@ class MealCardWidget extends StatelessWidget {
                         Text(
                           'KCAL',
                           style: AppTextStyles.semiBold12.copyWith(
-                            color: AppColors.outline,
+                            color: colorScheme.outline,
                             fontSize: 10.sp,
                             letterSpacing: 0.5,
                           ),

@@ -33,25 +33,29 @@ class BottomNavBar extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? theme.colorScheme.secondaryContainer.withValues(
-                        alpha: 0.6,
-                      )
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(16.r),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? theme.colorScheme.secondaryContainer.withValues(
+                          alpha: 0.6,
+                        )
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: HugeIcon(icon: icon, size: 20.w, color: color),
               ),
-              child: HugeIcon(icon: icon, size: 20.w, color: color),
             ),
             SizedBox(height: 2.h),
-            Text(
-              label,
-              style: AppTextStyles.medium14.copyWith(
-                fontSize: 10.sp,
-                color: color,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            Expanded(
+              child: Text(
+                label,
+                style: AppTextStyles.medium14.copyWith(
+                  fontSize: 10.sp,
+                  color: color,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                ),
               ),
             ),
           ],

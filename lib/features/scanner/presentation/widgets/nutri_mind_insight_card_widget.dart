@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 
@@ -15,11 +14,13 @@ class NutriMindInsightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.secondaryContainer.withValues(alpha: 0.5),
+        color: colorScheme.secondaryContainer.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
@@ -27,10 +28,10 @@ class NutriMindInsightCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18.r,
-            backgroundColor: AppColors.primaryContainer,
+            backgroundColor: colorScheme.primaryContainer,
             child: HugeIcon(
               icon: HugeIcons.strokeRoundedSparkles,
-              color: AppColors.onPrimaryContainer,
+              color: colorScheme.onPrimaryContainer,
               size: 18.w,
             ),
           ),
@@ -42,7 +43,7 @@ class NutriMindInsightCard extends StatelessWidget {
                 Text(
                   'NutriMind Insight',
                   style: AppTextStyles.semiBold16.copyWith(
-                    color: AppColors.onSecondaryContainer,
+                    color: colorScheme.onSecondaryContainer,
                     fontSize: 14.sp,
                   ),
                 ),
@@ -50,7 +51,7 @@ class NutriMindInsightCard extends StatelessWidget {
                 Text(
                   insightText,
                   style: AppTextStyles.regular16.copyWith(
-                    color: AppColors.onSurfaceVariant,
+                    color: colorScheme.onSurfaceVariant,
                     fontSize: 13.sp,
                     height: 1.4,
                   ),

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/shared/models/meal_model.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/home/presentation/manager/home_cubit/home_cubit.dart';
@@ -36,8 +35,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: const TopAppBar(title: 'Home'),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -82,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
                       Text(
                         greetingText,
                         style: AppTextStyles.semiBold28.copyWith(
-                          color: AppColors.onBackground,
+                          color: colorScheme.onSurface,
                           fontSize: 22.sp,
                         ),
                       ),
@@ -90,7 +90,7 @@ class _HomeViewState extends State<HomeView> {
                       Text(
                         'Stay healthy and mindful today.',
                         style: AppTextStyles.regular16.copyWith(
-                          color: AppColors.outline,
+                          color: colorScheme.outline,
                         ),
                       ),
                       SizedBox(height: 20.h),
@@ -159,7 +159,7 @@ class _HomeViewState extends State<HomeView> {
                           Text(
                             'Today\'s Meals',
                             style: AppTextStyles.semiBold20.copyWith(
-                              color: AppColors.onBackground,
+                              color: colorScheme.onSurface,
                             ),
                           ),
                           TextButton(
@@ -169,7 +169,7 @@ class _HomeViewState extends State<HomeView> {
                             child: Text(
                               'View All',
                               style: AppTextStyles.medium14.copyWith(
-                                color: AppColors.primary,
+                                color: colorScheme.primary,
                               ),
                             ),
                           ),
@@ -193,15 +193,15 @@ class _HomeViewState extends State<HomeView> {
                             horizontal: 16.w,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.surfaceLowest,
+                            color: colorScheme.surfaceContainerLow,
                             borderRadius: BorderRadius.circular(16.r),
-                            border: Border.all(color: AppColors.border),
+                            border: Border.all(color: colorScheme.outlineVariant),
                           ),
                           child: Center(
                             child: Text(
                               'No meals added yet today. Tap Scan to add!',
                               style: AppTextStyles.regular16.copyWith(
-                                color: AppColors.outline,
+                                color: colorScheme.outline,
                                 fontSize: 13.sp,
                               ),
                             ),
@@ -224,7 +224,7 @@ class _HomeViewState extends State<HomeView> {
                       Text(
                         'Daily Macros',
                         style: AppTextStyles.semiBold20.copyWith(
-                          color: AppColors.onBackground,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       SizedBox(height: 12.h),
@@ -240,7 +240,7 @@ class _HomeViewState extends State<HomeView> {
                             label: 'Carbs',
                             value: '${totalCarbs}g',
                             progress: (totalCarbs / 250).clamp(0.0, 1.0),
-                            cardBgColor: AppColors.secondaryContainer
+                            cardBgColor: colorScheme.secondaryContainer
                                 .withValues(alpha: 0.3),
                           ),
                           SizedBox(width: 10.w),

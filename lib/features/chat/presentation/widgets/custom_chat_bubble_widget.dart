@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/features/chat/data/models/message_model.dart';
 
@@ -13,6 +12,7 @@ class CustomChatBubbleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isUser = messageModel.isUser;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
@@ -21,7 +21,7 @@ class CustomChatBubbleWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
         decoration: BoxDecoration(
-          color: isUser ? AppColors.primary : AppColors.surfaceLow,
+          color: isUser ? colorScheme.primary : colorScheme.surfaceContainerLow,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(18.r),
             topRight: Radius.circular(18.r),
@@ -30,11 +30,11 @@ class CustomChatBubbleWidget extends StatelessWidget {
           ),
           boxShadow: isUser
               ? []
-              : const [
+              : [
                   BoxShadow(
-                    color: AppColors.shadow,
+                    color: colorScheme.shadow,
                     blurRadius: 6,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
         ),
@@ -45,7 +45,7 @@ class CustomChatBubbleWidget extends StatelessWidget {
             Text(
               messageModel.message,
               style: AppTextStyles.regular16.copyWith(
-                color: isUser ? AppColors.onPrimary : AppColors.onSurface,
+                color: isUser ? colorScheme.onPrimary : colorScheme.onSurface,
                 fontSize: 14.sp,
                 height: 1.4,
               ),
@@ -59,8 +59,8 @@ class CustomChatBubbleWidget extends StatelessWidget {
               style: AppTextStyles.semiBold12.copyWith(
                 fontSize: 10.sp,
                 color: isUser
-                    ? AppColors.onPrimary.withValues(alpha: 0.7)
-                    : AppColors.outline,
+                    ? colorScheme.onPrimary.withValues(alpha: 0.7)
+                    : colorScheme.outline,
               ),
             ),
           ],

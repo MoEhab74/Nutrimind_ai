@@ -13,6 +13,7 @@ import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
+import 'package:nutrimind_ai/features/history/presentation/manager/cubit/history_cubit.dart';
 import 'package:nutrimind_ai/features/home/presentation/manager/home_meals_cubit/home_meals_cubit.dart';
 import 'package:nutrimind_ai/features/scanner/data/models/food_model.dart';
 import 'package:nutrimind_ai/core/shared/models/meal_model.dart';
@@ -31,23 +32,30 @@ class ScanResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            leadingWidth: 56.w,
             expandedHeight: 260.h,
             pinned: true,
-            backgroundColor: AppColors.background,
+            backgroundColor: colorScheme.surface,
             elevation: 0,
-            leading: Padding(
-              padding: EdgeInsets.all(8.w),
-              child: CircleAvatar(
-                backgroundColor: AppColors.surfaceLowest.withValues(alpha: 0.8),
+            leading: Center(
+              child: Container(
+                width: 40.w,
+                height: 40.w,
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerLow.withValues(alpha: 0.8),
+                  shape: BoxShape.circle,
+                ),
                 child: IconButton(
+                  padding: EdgeInsets.zero,
                   icon: Icon(
                     Icons.arrow_back,
-                    color: AppColors.onSurface,
+                    color: colorScheme.onSurface,
                     size: 20.w,
                   ),
                   onPressed: () => Navigator.pop(context),
@@ -191,7 +199,7 @@ class ScanResultView extends StatelessWidget {
                   Text(
                     'Detailed Breakdown',
                     style: AppTextStyles.semiBold20.copyWith(
-                      color: AppColors.onBackground,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   const AppSizedBox(height: 16),
@@ -200,21 +208,21 @@ class ScanResultView extends StatelessWidget {
                     label: 'Fiber',
                     valueText: '${foodModel.fiber ?? 0}g / 10g',
                     progress: (foodModel.fiber ?? 0) / 10,
-                    progressColor: AppColors.primary,
+                    progressColor: colorScheme.primary,
                   ),
                   SizedBox(height: 16.h),
                   DetailedBreakdownRow(
                     label: 'Sugar',
                     valueText: '${foodModel.sugar ?? 0}g / 5g',
                     progress: (foodModel.sugar ?? 0) / 5,
-                    progressColor: AppColors.primaryContainer,
+                    progressColor: colorScheme.primaryContainer,
                   ),
                   SizedBox(height: 16.h),
                   DetailedBreakdownRow(
                     label: 'Sodium',
                     valueText: '${foodModel.sodium ?? 0}mg / 1000mg',
                     progress: (foodModel.sodium ?? 0) / 1000,
-                    progressColor: AppColors.primaryContainer,
+                    progressColor: colorScheme.primaryContainer,
                   ),
                   SizedBox(height: 32.h),
 
@@ -228,6 +236,11 @@ class ScanResultView extends StatelessWidget {
                           type: AnimatedSnackBarType.success,
                         );
                         await context.read<HomeMealsCubit>().getAllMeals();
+                        if (!context.mounted) return;
+                        // Trigger history method from history cubit to update meals list in HistoryView
+                        await context
+                            .read<HistoryMealsCubit>()
+                            .getAllMealsOrderedByMealDate();
                         if (!context.mounted) return;
                         context.go(AppRoutes.home);
                       } else if (state is MealFailure) {
@@ -246,8 +259,8 @@ class ScanResultView extends StatelessWidget {
                             ? SizedBox(
                                 width: 18.w,
                                 height: 18.w,
-                                child: const CircularProgressIndicator(
-                                  color: AppColors.onPrimary,
+                                child: CircularProgressIndicator(
+                                  color: colorScheme.onPrimary,
                                   strokeWidth: 2,
                                 ),
                               )
@@ -266,9 +279,10 @@ class ScanResultView extends StatelessWidget {
                                 // Convert FoodModel To MealModel
                                 final mealModel = MealModel.fromFood(foodModel);
                                 // Add Meal to ur diary
-                                context
-                                    .read<MealCubit>()
-                                    .addMeal(mealModel, image!);
+                                context.read<MealCubit>().addMeal(
+                                  mealModel,
+                                  image!,
+                                );
                               },
                       );
                     },
@@ -278,7 +292,7 @@ class ScanResultView extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
                       minimumSize: Size(double.infinity, 52.h),
-                      side: const BorderSide(color: AppColors.outline),
+                      side: BorderSide(color: colorScheme.outline),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100.r),
                       ),
@@ -288,14 +302,14 @@ class ScanResultView extends StatelessWidget {
                       children: [
                         HugeIcon(
                           icon: HugeIcons.strokeRoundedQrCode,
-                          color: AppColors.onSurface,
+                          color: colorScheme.onSurface,
                           size: 20.w,
                         ),
                         SizedBox(width: 8.w),
                         Text(
                           'Scan Again',
                           style: AppTextStyles.semiBold16.copyWith(
-                            color: AppColors.onSurface,
+                            color: colorScheme.onSurface,
                           ),
                         ),
                       ],

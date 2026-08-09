@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
 import 'package:nutrimind_ai/core/functions/validate_auth_fields.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
@@ -65,15 +64,16 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           'Create Account',
           style: AppTextStyles.semiBold20.copyWith(
-            color: AppColors.onBackground,
+            color: colorScheme.onSurface,
           ),
         ),
         centerTitle: true,
@@ -91,10 +91,10 @@ class _RegisterViewState extends State<RegisterView> {
                   child: Container(
                     padding: EdgeInsets.all(12.w),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceHighest,
+                      color: colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(16.r),
                       border: Border.all(
-                        color: AppColors.primaryFixedDim,
+                        color: colorScheme.primaryContainer,
                         width: 1.w,
                       ),
                     ),
@@ -111,7 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text(
                   'Create Your Account',
                   style: AppTextStyles.semiBold32.copyWith(
-                    color: AppColors.onBackground,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const AppSizedBox(height: 8),
@@ -120,7 +120,7 @@ class _RegisterViewState extends State<RegisterView> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.regular16.copyWith(
-                    color: AppColors.outline,
+                    color: colorScheme.outline,
                   ),
                 ),
                 const AppSizedBox(height: 32),
@@ -188,16 +188,16 @@ class _RegisterViewState extends State<RegisterView> {
                   },
                   builder: (context, state) {
                     return state is SignUpLoadingState
-                        ? const Center(
+                        ? Center(
                             child: CircularProgressIndicator(
-                              color: AppColors.primary,
+                              color: colorScheme.primary,
                             ),
                           )
                         : AppButton(
                             text: 'Create Account',
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.arrow_forward,
-                              color: AppColors.onPrimary,
+                              color: colorScheme.onPrimary,
                             ),
                             onPressed: _handleCreateAccount,
                           );
@@ -206,20 +206,20 @@ class _RegisterViewState extends State<RegisterView> {
                 const AppSizedBox(height: 32),
                 Row(
                   children: [
-                    const Expanded(
-                      child: Divider(color: AppColors.border, thickness: 1),
+                    Expanded(
+                      child: Divider(color: colorScheme.outlineVariant, thickness: 1),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
                         'OR CONTINUE WITH',
                         style: AppTextStyles.semiBold12.copyWith(
-                          color: AppColors.outline,
+                          color: colorScheme.outline,
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child: Divider(color: AppColors.border, thickness: 1),
+                    Expanded(
+                      child: Divider(color: colorScheme.outlineVariant, thickness: 1),
                     ),
                   ],
                 ),
@@ -244,14 +244,14 @@ class _RegisterViewState extends State<RegisterView> {
                   child: RichText(
                     text: TextSpan(
                       style: AppTextStyles.regular16.copyWith(
-                        color: AppColors.onSurfaceVariant,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                       children: [
                         const TextSpan(text: 'Already have an account? '),
                         TextSpan(
                           text: 'Sign In',
                           style: AppTextStyles.medium14.copyWith(
-                            color: AppColors.secondary,
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                           recognizer: TapGestureRecognizer()

@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_state.dart';
@@ -28,21 +27,22 @@ class LogoutButtonWidget extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final colorScheme = Theme.of(context).colorScheme;
         if (state is SignOutLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColors.primary),
+          return Center(
+            child: CircularProgressIndicator(color: colorScheme.primary),
           );
         }
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: AppColors.surfaceLow,
+            color: colorScheme.surfaceContainerLow,
             borderRadius: BorderRadius.circular(24.r),
           ),
           child: ProfileTileOption(
             icon: Icons.logout_rounded,
             title: 'Logout',
-            isDangerColor: AppColors.error,
+            isDangerColor: colorScheme.error,
             onTap: () {
               _showLogoutDialog(context);
             },
@@ -56,11 +56,12 @@ class LogoutButtonWidget extends StatelessWidget {
 // Show Logout dialog
 
 void _showLogoutDialog(BuildContext context) {
+  final colorScheme = Theme.of(context).colorScheme;
   showDialog(
     context: context,
     builder: (dialogContext) {
       return Dialog(
-        backgroundColor: AppColors.surfaceLowest,
+        backgroundColor: colorScheme.surfaceContainerLow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24.r),
         ),
@@ -72,10 +73,10 @@ void _showLogoutDialog(BuildContext context) {
             children: [
               CircleAvatar(
                 radius: 28.r,
-                backgroundColor: AppColors.errorContainer,
+                backgroundColor: colorScheme.errorContainer,
                 child: Icon(
                   Icons.logout_rounded,
-                  color: AppColors.error,
+                  color: colorScheme.error,
                   size: 28.w,
                 ),
               ),
@@ -84,7 +85,7 @@ void _showLogoutDialog(BuildContext context) {
               Text(
                 'Logout',
                 style: AppTextStyles.semiBold20.copyWith(
-                  color: AppColors.onSurface,
+                  color: colorScheme.onSurface,
                 ),
               ),
               SizedBox(height: 8.h),
@@ -92,7 +93,7 @@ void _showLogoutDialog(BuildContext context) {
                 'Are you sure you want to logout from your account?',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.regular16.copyWith(
-                  color: AppColors.outline,
+                  color: colorScheme.outline,
                   fontSize: 14.sp,
                 ),
               ),
@@ -105,7 +106,7 @@ void _showLogoutDialog(BuildContext context) {
                       onPressed: () => Navigator.pop(dialogContext),
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 12.h),
-                        side: const BorderSide(color: AppColors.border),
+                        side: BorderSide(color: colorScheme.outlineVariant),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.r),
                         ),
@@ -113,7 +114,7 @@ void _showLogoutDialog(BuildContext context) {
                       child: Text(
                         'Cancel',
                         style: AppTextStyles.semiBold16.copyWith(
-                          color: AppColors.onSurface,
+                          color: colorScheme.onSurface,
                           fontSize: 14.sp,
                         ),
                       ),
@@ -128,7 +129,7 @@ void _showLogoutDialog(BuildContext context) {
                         context.read<AuthCubit>().signOut();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.error,
+                        backgroundColor: colorScheme.error,
                         elevation: 0,
                         padding: EdgeInsets.symmetric(vertical: 12.h),
                         shape: RoundedRectangleBorder(
@@ -138,7 +139,7 @@ void _showLogoutDialog(BuildContext context) {
                       child: Text(
                         'Logout',
                         style: AppTextStyles.semiBold16.copyWith(
-                          color: AppColors.onError,
+                          color: colorScheme.onError,
                           fontSize: 14.sp,
                         ),
                       ),

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class MealCardTile extends StatelessWidget {
@@ -26,15 +25,16 @@ class MealCardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool hasValidImage = imageUrl != null && imageUrl!.trim().isNotEmpty;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLowest,
+        color: colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20.r),
         border: !isCompleted
-            ? Border.all(color: AppColors.border, style: BorderStyle.solid)
+            ? Border.all(color: colorScheme.outlineVariant, style: BorderStyle.solid)
             : null,
       ),
       child: Row(
@@ -52,10 +52,10 @@ class MealCardTile extends StatelessWidget {
                       return Container(
                         width: 48.w,
                         height: 48.w,
-                        color: AppColors.surfaceContainer,
+                        color: colorScheme.surfaceContainer,
                         child: Icon(
                           placeholderIcon ?? Icons.restaurant,
-                          color: AppColors.outline,
+                          color: colorScheme.outline,
                         ),
                       );
                     },
@@ -63,10 +63,10 @@ class MealCardTile extends StatelessWidget {
                 : Container(
                     width: 48.w,
                     height: 48.w,
-                    color: AppColors.surfaceContainer,
+                    color: colorScheme.surfaceContainer,
                     child: Icon(
                       placeholderIcon ?? Icons.restaurant,
-                      color: AppColors.outline,
+                      color: colorScheme.outline,
                     ),
                   ),
           ),
@@ -80,7 +80,7 @@ class MealCardTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.semiBold16.copyWith(
-                    color: AppColors.onSurface,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 SizedBox(height: 2.h),
@@ -90,8 +90,8 @@ class MealCardTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.regular16.copyWith(
                     color: isCompleted
-                        ? AppColors.outline
-                        : AppColors.outlineVariant,
+                        ? colorScheme.outline
+                        : colorScheme.outlineVariant,
                     fontSize: 12.sp,
                   ),
                 ),
@@ -103,8 +103,8 @@ class MealCardTile extends StatelessWidget {
             icon: Icon(
               isCompleted ? Icons.check_circle : Icons.add_circle,
               color: isCompleted
-                  ? AppColors.primaryContainer
-                  : AppColors.primary,
+                  ? colorScheme.primary
+                  : colorScheme.primary,
               size: 24.w,
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 
 class TypingBubbleWidget extends StatefulWidget {
   const TypingBubbleWidget({super.key});
@@ -30,24 +29,25 @@ class _TypingBubbleWidgetState extends State<TypingBubbleWidget>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.w),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: AppColors.surfaceLow,
+          color: colorScheme.surfaceContainerLow,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.r),
             topRight: Radius.circular(20.r),
             bottomRight: Radius.circular(20.r),
             bottomLeft: Radius.circular(4.r),
           ),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: AppColors.shadow,
+              color: colorScheme.shadow,
               blurRadius: 6,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -72,7 +72,7 @@ class _TypingBubbleWidgetState extends State<TypingBubbleWidget>
                     offset: Offset(0, -bounce * 6.h),
                     child: CircleAvatar(
                       radius: 4.r,
-                      backgroundColor: AppColors.primary.withValues(
+                      backgroundColor: colorScheme.primary.withValues(
                         alpha: 0.4 + (bounce * 0.6),
                       ),
                     ),

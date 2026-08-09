@@ -76,6 +76,9 @@ class _ProfileViewState extends State<ProfileView> {
             final height = userModel?.height;
             final targetWeight = userModel?.targetWeight;
 
+            final theme = Theme.of(context);
+            final colorScheme = theme.colorScheme;
+
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
                 horizontal: 20.w,
@@ -93,14 +96,14 @@ class _ProfileViewState extends State<ProfileView> {
                         Text(
                           fullName,
                           style: AppTextStyles.semiBold28.copyWith(
-                            color: AppColors.onBackground,
+                            color: colorScheme.onSurface,
                           ),
                         ),
                         SizedBox(height: 4.h),
                         Text(
                           email,
                           style: AppTextStyles.regular16.copyWith(
-                            color: AppColors.outline,
+                            color: colorScheme.outline,
                           ),
                         ),
                       ],
@@ -121,7 +124,7 @@ class _ProfileViewState extends State<ProfileView> {
                         title: _formatGoal(goal),
                         subtitle: 'Target: ${targetWeight ?? '72'}kg',
                         icon: Icons.track_changes_outlined,
-                        backgroundColor: AppColors.secondaryContainer,
+                        backgroundColor: colorScheme.secondaryContainer,
                       ),
                       ProfileStatCard(
                         tag: 'BMI INDEX',
@@ -135,8 +138,8 @@ class _ProfileViewState extends State<ProfileView> {
                               height: 8.h,
                               child: LinearProgressIndicator(
                                 value: 23.5 / 30,
-                                color: AppColors.primary,
-                                backgroundColor: AppColors.primaryContainer,
+                                color: colorScheme.primary,
+                                backgroundColor: colorScheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(4.r),
                               ),
                             ),
@@ -144,7 +147,7 @@ class _ProfileViewState extends State<ProfileView> {
                             Text(
                               'Normal',
                               style: AppTextStyles.semiBold12.copyWith(
-                                color: AppColors.primary,
+                                color: colorScheme.primary,
                               ),
                             ),
                           ],
@@ -167,7 +170,7 @@ class _ProfileViewState extends State<ProfileView> {
                   Text(
                     'ACCOUNT SETTINGS',
                     style: AppTextStyles.semiBold12.copyWith(
-                      color: AppColors.outline,
+                      color: colorScheme.outline,
                       letterSpacing: 0.8,
                     ),
                   ),
@@ -180,7 +183,7 @@ class _ProfileViewState extends State<ProfileView> {
                       vertical: 8.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceLow,
+                      color: colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(24.r),
                     ),
                     child: Column(
@@ -204,14 +207,14 @@ class _ProfileViewState extends State<ProfileView> {
                               Text(
                                 'English',
                                 style: AppTextStyles.medium14.copyWith(
-                                  color: AppColors.outline,
+                                  color: colorScheme.outline,
                                 ),
                               ),
                               SizedBox(width: 4.w),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
                                 size: 14.w,
-                                color: AppColors.outline,
+                                color: colorScheme.outline,
                               ),
                             ],
                           ),

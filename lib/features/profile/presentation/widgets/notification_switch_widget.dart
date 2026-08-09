@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 
 class NotificationsSwitch extends StatefulWidget {
   const NotificationsSwitch({super.key});
@@ -16,21 +15,22 @@ class _NotificationsSwitchState extends State<NotificationsSwitch> {
   @override
   Widget build(BuildContext context) {
     log('NotificationsSwitch has been rebuilt');
+    final colorScheme = Theme.of(context).colorScheme;
     return Switch.adaptive(
       value: _notificationsEnabled,
       trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
         if (states.contains(WidgetState.selected)) {
           return Colors.transparent;
         }
-        return AppColors.outlineVariant;
+        return colorScheme.outlineVariant;
       }),
       trackOutlineWidth: WidgetStateProperty.all(1.2),
 
-      activeThumbColor: AppColors.onPrimary,
-      activeTrackColor: AppColors.primary,
+      activeThumbColor: colorScheme.onPrimary,
+      activeTrackColor: colorScheme.primary,
 
-      inactiveThumbColor: AppColors.outline,
-      inactiveTrackColor: AppColors.surfaceLow,
+      inactiveThumbColor: colorScheme.outline,
+      inactiveTrackColor: colorScheme.surfaceContainerLow,
 
       onChanged: (val) => setState(() => _notificationsEnabled = val),
     );

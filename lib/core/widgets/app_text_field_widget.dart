@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class AppTextField extends StatelessWidget {
@@ -25,25 +24,27 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: AppTextStyles.medium14.copyWith(color: AppColors.onSurfaceVariant),
+          style: AppTextStyles.medium14.copyWith(color: colorScheme.onSurfaceVariant),
         ),
         SizedBox(height: 8.h),
         TextFormField(
           controller: controller,
           obscureText: isPassword,
           validator: validator,
-          style: AppTextStyles.regular16.copyWith(color: AppColors.onSurface),
+          style: AppTextStyles.regular16.copyWith(color: colorScheme.onSurface),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: AppTextStyles.regular16.copyWith(color: AppColors.outlineVariant),
-            prefixIcon: Icon(prefixIcon, color: AppColors.outline, size: 20.w),
+            hintStyle: AppTextStyles.regular16.copyWith(color: colorScheme.outlineVariant),
+            prefixIcon: Icon(prefixIcon, color: colorScheme.outline, size: 20.w),
             suffixIcon: suffixIcon != null
-                ? Icon(suffixIcon, color: AppColors.outline, size: 20.w)
+                ? Icon(suffixIcon, color: colorScheme.outline, size: 20.w)
                 : null,
             contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           ),

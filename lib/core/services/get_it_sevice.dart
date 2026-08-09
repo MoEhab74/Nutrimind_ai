@@ -15,6 +15,7 @@ import 'package:nutrimind_ai/core/shared/repos/nutrition_repo/nutrition_calculat
 import 'package:nutrimind_ai/core/shared/repos/nutrition_repo/nutrition_calculation_repo_impl.dart';
 import 'package:nutrimind_ai/core/shared/repos/user_repo/user_repo.dart';
 import 'package:nutrimind_ai/core/shared/repos/user_repo/user_repo_impl.dart';
+import 'package:nutrimind_ai/core/theme/themes/manager/theme_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/chat/data/repos/chat_repo.dart';
 import 'package:nutrimind_ai/features/chat/data/repos/chat_repo_impl.dart';
@@ -64,6 +65,10 @@ void setupGetIt() {
 
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(getIt<ProfileLocalDataSource>()),
+  );
+  // Theme
+  getIt.registerLazySingleton<ThemeCubit>(
+    () => ThemeCubit(cacheHelper: getIt<CacheHelper>()),
   );
   // Auth
   getIt.registerFactory<AuthCubit>(() => AuthCubit());
@@ -151,7 +156,7 @@ void setupGetIt() {
     () => HomeMealsCubit(mealRepo: getIt<MealRepo>()),
   );
   // HistoryMealsCubit
-  getIt.registerFactory<HistoryMealsCubit>(
+  getIt.registerLazySingleton<HistoryMealsCubit>(
     () => HistoryMealsCubit(mealRepo: getIt<MealRepo>()),
   );
 }

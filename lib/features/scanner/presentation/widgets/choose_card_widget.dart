@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class ChooseCard extends StatelessWidget {
@@ -19,22 +18,24 @@ class ChooseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.secondaryContainer : AppColors.surfaceLow,
+        color: isSelected ? colorScheme.secondaryContainer : colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: isSelected ? AppColors.primary : Colors.transparent,
+          color: isSelected ? colorScheme.primary : Colors.transparent,
           width: 1.5,
         ),
         boxShadow: isSelected
-            ? const [
+            ? [
                 BoxShadow(
-                  color: AppColors.glow,
+                  color: colorScheme.shadow,
                   blurRadius: 12,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ]
             : [],
@@ -55,16 +56,16 @@ class ChooseCard extends StatelessWidget {
                   padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? AppColors.primary
-                        : AppColors.surfaceContainer,
+                        ? colorScheme.primary
+                        : colorScheme.surfaceContainer,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     icon,
                     size: 28.w,
                     color: isSelected
-                        ? AppColors.onPrimary
-                        : AppColors.onSurfaceVariant,
+                        ? colorScheme.onPrimary
+                        : colorScheme.onSurfaceVariant,
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -73,8 +74,8 @@ class ChooseCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: AppTextStyles.semiBold16.copyWith(
                     color: isSelected
-                        ? AppColors.onPrimaryContainer
-                        : AppColors.onSurface,
+                        ? colorScheme.onSecondaryContainer
+                        : colorScheme.onSurface,
                   ),
                 ),
               ],

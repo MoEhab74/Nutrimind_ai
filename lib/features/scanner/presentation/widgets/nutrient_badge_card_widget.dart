@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 
@@ -20,10 +19,12 @@ class NutrientBadgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: cardBgColor ?? AppColors.surfaceLow,
+        color: cardBgColor ?? colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
@@ -36,7 +37,7 @@ class NutrientBadgeCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.semiBold12.copyWith(
-              color: AppColors.outline,
+              color: colorScheme.outline,
               fontSize: 11.sp,
             ),
           ),
@@ -48,7 +49,7 @@ class NutrientBadgeCard extends StatelessWidget {
               value,
               maxLines: 1,
               style: AppTextStyles.semiBold20.copyWith(
-                color: valueColor ?? AppColors.onSurface,
+                color: valueColor ?? colorScheme.onSurface,
                 fontSize: 16.sp,
               ),
             ),

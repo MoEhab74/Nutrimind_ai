@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/chat/data/models/message_model.dart';
 import 'package:nutrimind_ai/features/chat/presentation/manager/cubit/chat_cubit.dart';
@@ -59,7 +58,6 @@ class _ChatViewState extends State<ChatView> {
 
     return Scaffold(
       appBar: const TopAppBar(title: 'Ai Chat'),
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class QuickActionButton extends StatelessWidget {
@@ -17,6 +16,7 @@ class QuickActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -24,7 +24,7 @@ class QuickActionButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 16.h),
           decoration: BoxDecoration(
-            color: AppColors.surfaceLow,
+            color: colorScheme.surfaceContainerLow,
             borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
@@ -32,16 +32,16 @@ class QuickActionButton extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 18.r,
-                backgroundColor: AppColors.secondaryContainer.withValues(
+                backgroundColor: colorScheme.secondaryContainer.withValues(
                   alpha: 0.5,
                 ),
-                child: Icon(icon, color: AppColors.primary, size: 20.w),
+                child: Icon(icon, color: colorScheme.primary, size: 20.w),
               ),
               SizedBox(height: 8.h),
               Text(
                 label,
                 style: AppTextStyles.medium14.copyWith(
-                  color: AppColors.onSurfaceVariant,
+                  color: colorScheme.onSurfaceVariant,
                   fontSize: 12.sp,
                 ),
               ),

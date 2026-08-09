@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class AppButton extends StatelessWidget {
@@ -27,6 +26,7 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -52,7 +52,7 @@ class AppButton extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: textStyle ??
                     AppTextStyles.semiBold16.copyWith(
-                      color: textColor ?? AppColors.onPrimary,
+                      color: textColor ?? colorScheme.onPrimary,
                     ),
               ),
             ),

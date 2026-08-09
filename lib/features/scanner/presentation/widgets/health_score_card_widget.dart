@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 
@@ -17,17 +16,18 @@ class HealthScoreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double progress = (score / maxScore).clamp(0.0, 1.0);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLowest,
+        color: colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(24.r),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: AppColors.shadow,
+            color: colorScheme.shadow,
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -46,8 +46,8 @@ class HealthScoreCard extends StatelessWidget {
                   child: CircularProgressIndicator(
                     value: progress,
                     strokeWidth: 9.w,
-                    backgroundColor: AppColors.surfaceContainer,
-                    color: AppColors.primary,
+                    backgroundColor: colorScheme.surfaceContainer,
+                    color: colorScheme.primary,
                     strokeCap: StrokeCap.round,
                   ),
                 ),
@@ -57,14 +57,14 @@ class HealthScoreCard extends StatelessWidget {
                     Text(
                       '$score',
                       style: AppTextStyles.semiBold28.copyWith(
-                        color: AppColors.onSurface,
+                        color: colorScheme.onSurface,
                         fontSize: 24.sp,
                       ),
                     ),
                     Text(
                       '/$maxScore',
                       style: AppTextStyles.semiBold12.copyWith(
-                        color: AppColors.outline,
+                        color: colorScheme.outline,
                         fontSize: 10.sp,
                       ),
                     ),
@@ -77,7 +77,7 @@ class HealthScoreCard extends StatelessWidget {
           Text(
             'Health Score',
             style: AppTextStyles.medium14.copyWith(
-              color: AppColors.onSurfaceVariant,
+              color: colorScheme.onSurfaceVariant,
               fontSize: 12.sp,
             ),
           ),

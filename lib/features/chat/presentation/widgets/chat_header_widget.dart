@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class ChatHeaderWidget extends StatelessWidget {
@@ -9,6 +8,8 @@ class ChatHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         SizedBox(height: 12.h),
@@ -17,25 +18,25 @@ class ChatHeaderWidget extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 40.r,
-              backgroundColor: AppColors.primaryContainer,
+              backgroundColor: colorScheme.primaryContainer,
               child: HugeIcon(
                 icon: HugeIcons.strokeRoundedBot,
-                color: AppColors.onPrimaryContainer,
+                color: colorScheme.onPrimaryContainer,
                 size: 40.w,
               ),
             ),
             Container(
               padding: EdgeInsets.all(2.w),
-              decoration: const BoxDecoration(
-                color: AppColors.background,
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
                 shape: BoxShape.circle,
               ),
               child: CircleAvatar(
                 radius: 10.r,
-                backgroundColor: AppColors.primary,
+                backgroundColor: colorScheme.primary,
                 child: Icon(
                   Icons.check_rounded,
-                  color: AppColors.onPrimary,
+                  color: colorScheme.onPrimary,
                   size: 12.w,
                 ),
               ),
@@ -46,7 +47,7 @@ class ChatHeaderWidget extends StatelessWidget {
         Text(
           'NutriMind AI',
           style: AppTextStyles.semiBold28.copyWith(
-            color: AppColors.onBackground,
+            color: colorScheme.onSurface,
             fontSize: 22.sp,
           ),
         ),
@@ -54,7 +55,7 @@ class ChatHeaderWidget extends StatelessWidget {
         Text(
           'Your AI Nutrition Assistant',
           style: AppTextStyles.regular16.copyWith(
-            color: AppColors.outline,
+            color: colorScheme.outline,
             fontSize: 14.sp,
           ),
         ),

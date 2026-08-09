@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class CalorieTrackerCard extends StatelessWidget {
@@ -16,18 +15,19 @@ class CalorieTrackerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double progress = (dailyTarget - kcalLeft) / dailyTarget;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLowest,
+        color: colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(24.r),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: AppColors.shadow,
+            color: colorScheme.shadow,
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -45,8 +45,8 @@ class CalorieTrackerCard extends StatelessWidget {
                   child: CircularProgressIndicator(
                     value: progress.clamp(0.0, 1.0),
                     strokeWidth: 12.w,
-                    backgroundColor: AppColors.surfaceContainer,
-                    color: AppColors.primary,
+                    backgroundColor: colorScheme.surfaceContainer,
+                    color: colorScheme.primary,
                     strokeCap: StrokeCap.round,
                   ),
                 ),
@@ -56,14 +56,14 @@ class CalorieTrackerCard extends StatelessWidget {
                     Text(
                       '$kcalLeft',
                       style: AppTextStyles.bold40.copyWith(
-                        color: AppColors.onSurface,
+                        color: colorScheme.onSurface,
                         fontSize: 32.sp,
                       ),
                     ),
                     Text(
                       'KCAL LEFT',
                       style: AppTextStyles.semiBold12.copyWith(
-                        color: AppColors.outline,
+                        color: colorScheme.outline,
                         fontSize: 10.sp,
                         letterSpacing: 0.5,
                       ),
@@ -76,12 +76,14 @@ class CalorieTrackerCard extends StatelessWidget {
           SizedBox(height: 20.h),
           RichText(
             text: TextSpan(
-              style: AppTextStyles.regular16.copyWith(color: AppColors.outline),
+              style: AppTextStyles.regular16.copyWith(color: colorScheme.outline),
               children: [
                 const TextSpan(text: 'Daily Target: '),
                 TextSpan(
                   text: '$dailyTarget kcal',
-                  style: AppTextStyles.semiBold16.copyWith(color: AppColors.onSurface),
+                  style: AppTextStyles.semiBold16.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
                 ),
               ],
             ),

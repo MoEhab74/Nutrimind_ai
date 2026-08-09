@@ -10,21 +10,40 @@ final ThemeData darkTheme = ThemeData(
 
   scaffoldBackgroundColor: const Color(0xff111312),
 
-  colorScheme: const ColorScheme.dark(
+  colorScheme: const ColorScheme(
+    brightness: Brightness.dark,
     primary: _primary,
     onPrimary: Colors.black,
+    primaryContainer: Color(0xff005227),
+    onPrimaryContainer: Color(0xff6BFE9C),
 
     secondary: Color(0xff97D5A3),
     onSecondary: Colors.black,
+    secondaryContainer: Color(0xff1E3625),
+    onSecondaryContainer: Color(0xffB3F1BD),
 
     tertiary: Color(0xffBDC7D9),
     onTertiary: Colors.black,
-
-    surface: Color(0xff1A1C1B),
-    onSurface: Colors.white,
+    tertiaryContainer: Color(0xff3B4554),
+    onTertiaryContainer: Color(0xffD9E3F6),
 
     error: Color(0xffFFB4AB),
     onError: Colors.black,
+    errorContainer: Color(0xff93000A),
+    onErrorContainer: Color(0xffFFDAD6),
+
+    surface: Color(0xff111312),
+    onSurface: Colors.white,
+    onSurfaceVariant: Color(0xffC1C9C2),
+
+    surfaceContainerLow: Color(0xff1A1C1B),
+    surfaceContainer: Color(0xff202322),
+    surfaceContainerHigh: Color(0xff272A29),
+    surfaceContainerHighest: Color(0xff2E3130),
+
+    outline: Color(0xff8C938D),
+    outlineVariant: Color(0xff2D322F),
+    shadow: Color(0x33000000),
   ),
 
   textTheme: TextTheme(

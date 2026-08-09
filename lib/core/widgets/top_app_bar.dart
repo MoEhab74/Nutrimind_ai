@@ -46,12 +46,12 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: ClipOval(
             child: Image.asset(
               Assets.images.profile.path,
-              width: 32.w,
-              height: 32.h,
+              width: 32.r,
+              height: 32.r,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Icon(
                 Icons.account_circle,
-                size: 32.w,
+                size: 32.r,
                 color: AppColors.primary,
               ),
             ),

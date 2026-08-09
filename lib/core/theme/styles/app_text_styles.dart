@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 
 abstract class AppTextStyles {
   static TextStyle _base({
@@ -9,7 +8,7 @@ abstract class AppTextStyles {
     required FontWeight fontWeight,
     required double height,
     double letterSpacing = 0,
-    Color color = AppColors.onSurface,
+    Color? color,
   }) {
     return GoogleFonts.plusJakartaSans(
       fontSize: fontSize.sp,
@@ -70,6 +69,5 @@ abstract class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w600,
     height: 24 / 16,
-    color: AppColors.onPrimary,
   );
 }

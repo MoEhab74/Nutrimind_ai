@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class ProfileStatCard extends StatelessWidget {
@@ -8,7 +7,7 @@ class ProfileStatCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Widget? extraWidget;
 
   const ProfileStatCard({
@@ -17,16 +16,19 @@ class ProfileStatCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.icon,
-    this.backgroundColor = AppColors.surfaceLow,
+    this.backgroundColor,
     this.extraWidget,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final bg = backgroundColor ?? colorScheme.surfaceContainerLow;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: bg,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
@@ -36,12 +38,12 @@ class ProfileStatCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: AppColors.primary, size: 22.w),
+              Icon(icon, color: colorScheme.primary, size: 22.w),
               if (tag != null)
                 Text(
                   tag!,
                   style: AppTextStyles.semiBold12.copyWith(
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -55,7 +57,7 @@ class ProfileStatCard extends StatelessWidget {
               child: Text(
                 title,
                 style: AppTextStyles.semiBold20.copyWith(
-                  color: AppColors.onSurface,
+                  color: colorScheme.onSurface,
                 ),
                 maxLines: 1,
               ),
@@ -70,7 +72,7 @@ class ProfileStatCard extends StatelessWidget {
                   child: Text(
                     subtitle,
                     style: AppTextStyles.medium14.copyWith(
-                      color: AppColors.outline,
+                      color: colorScheme.outline,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

@@ -9,17 +9,14 @@ import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
 import 'package:nutrimind_ai/core/functions/validate_auth_fields.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 import 'package:nutrimind_ai/core/widgets/app_text_field_widget.dart';
 import 'package:nutrimind_ai/core/widgets/default_app_bar.dart';
-import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/manager/cubit/auth_state.dart';
 import 'package:nutrimind_ai/features/Auth/presentation/widgets/social_auth_buttom_widget.dart';
-import 'package:nutrimind_ai/features/profile_setup/data/repos/profile_setup_repo.dart';
 import 'package:nutrimind_ai/gen/assets.gen.dart';
 
 class LoginView extends StatefulWidget {
@@ -54,8 +51,9 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: const DefaultAppBar(title: 'Login', showBackButton: true),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -70,10 +68,10 @@ class _LoginViewState extends State<LoginView> {
                   child: Container(
                     padding: EdgeInsets.all(12.w),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceHighest,
+                      color: colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(16.r),
                       border: Border.all(
-                        color: AppColors.primaryFixedDim,
+                        color: colorScheme.primaryContainer,
                         width: 1.w,
                       ),
                     ),
@@ -90,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
                 Text(
                   'Welcome Back 🙌',
                   style: AppTextStyles.semiBold32.copyWith(
-                    color: AppColors.onBackground,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const AppSizedBox(height: 8),
@@ -99,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.regular16.copyWith(
-                    color: AppColors.outline,
+                    color: colorScheme.outline,
                   ),
                 ),
                 const AppSizedBox(height: 32),
@@ -113,33 +111,35 @@ class _LoginViewState extends State<LoginView> {
                 const AppSizedBox(height: 16),
                 AppTextField(
                   label: 'Password',
-                  hintText: '********',
+                  hintText: '••••••••',
                   prefixIcon: Icons.lock_outline,
-                  suffixIcon: Icons.visibility_outlined,
                   isPassword: true,
                   controller: _passwordController,
                   validator: validatePassword,
                 ),
-                const AppSizedBox(height: 32),
+                const AppSizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Forgot Password?',
+                      style: AppTextStyles.medium14.copyWith(
+                        color: colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+                const AppSizedBox(height: 24),
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is SignInSuccessState) {
                       showAnimatedSnackbar(
                         context,
-                        message: 'Login successful',
+                        message: 'Login Successfully',
                         type: AnimatedSnackBarType.success,
                       );
-                      Future.delayed(const Duration(seconds: 1), () async {
-                        if (!context.mounted) return;
-                        final isCompleted = await getIt<ProfileRepository>()
-                            .isProfileCompleted();
-                        if (!context.mounted) return;
-                        if (isCompleted) {
-                          context.go(AppRoutes.home);
-                        } else {
-                          context.go(AppRoutes.greeting);
-                        }
-                      });
+                      context.pushReplacementNamed(AppRoutes.home);
                     } else if (state is SignInFailureState) {
                       showAnimatedSnackbar(
                         context,
@@ -150,14 +150,12 @@ class _LoginViewState extends State<LoginView> {
                   },
                   builder: (context, state) {
                     return state is SignInLoadingState
-                        ? const CircularProgressIndicator(
-                            color: AppColors.primary,
-                          )
+                        ? const Center(child: CircularProgressIndicator())
                         : AppButton(
                             text: 'Login',
-                            icon: const Icon(
-                              Icons.arrow_forward,
-                              color: AppColors.onPrimary,
+                            backgroundColor: colorScheme.primary,
+                            textStyle: AppTextStyles.semiBold16.copyWith(
+                              color: colorScheme.onPrimary,
                             ),
                             onPressed: _handleLogin,
                           );
@@ -166,20 +164,20 @@ class _LoginViewState extends State<LoginView> {
                 const AppSizedBox(height: 32),
                 Row(
                   children: [
-                    const Expanded(
-                      child: Divider(color: AppColors.border, thickness: 1),
+                    Expanded(
+                      child: Divider(color: colorScheme.outlineVariant, thickness: 1),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
                         'OR CONTINUE WITH',
                         style: AppTextStyles.semiBold12.copyWith(
-                          color: AppColors.outline,
+                          color: colorScheme.outline,
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child: Divider(color: AppColors.border, thickness: 1),
+                    Expanded(
+                      child: Divider(color: colorScheme.outlineVariant, thickness: 1),
                     ),
                   ],
                 ),
@@ -204,14 +202,14 @@ class _LoginViewState extends State<LoginView> {
                   child: RichText(
                     text: TextSpan(
                       style: AppTextStyles.regular16.copyWith(
-                        color: AppColors.onSurfaceVariant,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                       children: [
                         const TextSpan(text: 'Don\'t have an account? '),
                         TextSpan(
                           text: 'Sign Up',
                           style: AppTextStyles.medium14.copyWith(
-                            color: AppColors.secondary,
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                           recognizer: TapGestureRecognizer()

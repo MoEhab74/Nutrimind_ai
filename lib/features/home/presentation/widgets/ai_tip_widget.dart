@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
 class AiTipCard extends StatelessWidget {
@@ -14,11 +13,13 @@ class AiTipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.onPrimaryContainer,
+        color: colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
@@ -26,10 +27,10 @@ class AiTipCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18.r,
-            backgroundColor: AppColors.primary,
+            backgroundColor: colorScheme.primary,
             child: HugeIcon(
               icon: HugeIcons.strokeRoundedBulb,
-              color: AppColors.onPrimary,
+              color: colorScheme.onPrimary,
               size: 18.w,
             ),
           ),
@@ -41,7 +42,7 @@ class AiTipCard extends StatelessWidget {
                 Text(
                   'NUTRIMIND TIP',
                   style: AppTextStyles.semiBold12.copyWith(
-                    color: AppColors.primaryFixed,
+                    color: colorScheme.onPrimaryContainer,
                     fontSize: 10.sp,
                     letterSpacing: 0.5,
                   ),
@@ -50,7 +51,7 @@ class AiTipCard extends StatelessWidget {
                 Text(
                   tipText,
                   style: AppTextStyles.regular16.copyWith(
-                    color: AppColors.onPrimary,
+                    color: colorScheme.onPrimaryContainer,
                     fontSize: 13.sp,
                     height: 1.4,
                   ),

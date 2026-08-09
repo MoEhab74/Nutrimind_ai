@@ -26,18 +26,16 @@ final ThemeData lightTheme = ThemeData(
 
     surface: AppColors.surface,
     onSurface: AppColors.onSurface,
+    onSurfaceVariant: AppColors.onSurfaceVariant,
 
-    primaryContainer: AppColors.primaryContainer,
-    onPrimaryContainer: AppColors.onPrimaryContainer,
+    surfaceContainerLow: AppColors.surfaceLow,
+    surfaceContainer: AppColors.surfaceContainer,
+    surfaceContainerHigh: AppColors.surfaceHigh,
+    surfaceContainerHighest: AppColors.surfaceHighest,
 
-    secondaryContainer: AppColors.secondaryContainer,
-    onSecondaryContainer: AppColors.onSecondaryContainer,
-
-    tertiaryContainer: AppColors.tertiaryContainer,
-    onTertiaryContainer: AppColors.onTertiaryContainer,
-
-    errorContainer: AppColors.errorContainer,
-    onErrorContainer: AppColors.onErrorContainer,
+    outline: AppColors.outline,
+    outlineVariant: AppColors.outlineVariant,
+    shadow: AppColors.shadow,
   ),
 
   textTheme: TextTheme(
