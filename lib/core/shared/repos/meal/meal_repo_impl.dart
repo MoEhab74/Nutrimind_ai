@@ -76,4 +76,36 @@ class MealRepoImpl implements MealRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteAllTodayMeals() async {
+    try {
+      final now = DateTime.now();
+      final startOfDay = DateTime(now.year, now.month, now.day);
+      final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+
+      final querySnapshot = await mealsCollection
+          .where('mealDate', isGreaterThanOrEqualTo: startOfDay)
+          .where('mealDate', isLessThanOrEqualTo: endOfDay)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        log('No meals found for today to delete.');
+        return;
+      }
+
+      // Get all today's meals and delete them using batch
+      final batch = _firebaseFirestore.batch();
+
+      for (var doc in querySnapshot.docs) {
+        batch.delete(doc.reference);
+      }
+
+      await batch.commit();
+      log('All today meals deleted successfully');
+    } on Exception catch (e) {
+      log('Error Deleting Today Meals: $e');
+      rethrow;
+    }
+  }
 }

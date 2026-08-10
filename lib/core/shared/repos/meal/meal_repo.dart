@@ -9,4 +9,7 @@ abstract class MealRepo {
 
   // get meals ordered by mealDate ascending
   Future<List<MealModel>> getAllMealsOrderedByMealDate();
+
+  // delete all today's meals
+  Future<void> deleteAllTodayMeals();
 }

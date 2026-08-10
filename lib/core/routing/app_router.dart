@@ -97,6 +97,7 @@ abstract class AppRouter {
                     value: getIt<HistoryMealsCubit>()
                       ..getAllMealsOrderedByMealDate(),
                   ),
+                  BlocProvider.value(value: getIt<HomeCubit>()),
                 ],
                 child: ScanResultView(
                   foodModel: extra['foodModel'] as FoodModel,
@@ -108,6 +109,7 @@ abstract class AppRouter {
                 providers: [
                   BlocProvider(create: (context) => getIt<MealCubit>()),
                   BlocProvider.value(value: getIt<HomeMealsCubit>()),
+                  BlocProvider.value(value: getIt<HomeCubit>()),
                 ],
                 child: ScanResultView(foodModel: extra),
               );
@@ -129,8 +131,8 @@ abstract class AppRouter {
                   name: AppRoutes.home,
                   builder: (context, state) => MultiBlocProvider(
                     providers: [
-                      BlocProvider(
-                        create: (context) => getIt<HomeCubit>()..getNutrition(),
+                      BlocProvider.value(
+                        value: getIt<HomeCubit>()..getNutrition(),
                       ),
                       BlocProvider.value(
                         value: getIt<HomeMealsCubit>()..getAllMeals(),

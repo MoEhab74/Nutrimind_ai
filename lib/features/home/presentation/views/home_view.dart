@@ -51,11 +51,18 @@ class _HomeViewState extends State<HomeView> {
 
               return BlocBuilder<HomeMealsCubit, HomeMealsState>(
                 builder: (context, mealsState) {
-                  final List<MealModel> meals = mealsState is HomeMealsSuccess
+                  final List<MealModel> allMeals = mealsState is HomeMealsSuccess
                       ? mealsState.meals
                       : context.watch<HomeMealsCubit>().meals;
 
-                  // Sum up nutrients from all meals
+                  final now = DateTime.now();
+                  final meals = allMeals.where((meal) {
+                    return meal.mealDate.year == now.year &&
+                        meal.mealDate.month == now.month &&
+                        meal.mealDate.day == now.day;
+                  }).toList();
+
+                  // Sum up nutrients from today's meals
                   int totalCalories = 0;
                   int totalProtein = 0;
                   int totalCarbs = 0;

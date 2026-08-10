@@ -19,4 +19,19 @@ class HomeMealsCubit extends Cubit<HomeMealsState> {
       emit(HomeMealsError(errorMessage: e.toString()));
     }
   }
+
+  // Delete All Today's Meals
+  Future<void> deleteAllTodayMeals() async {
+    emit(HomeMealsLoading());
+    try {
+      await mealRepo.deleteAllTodayMeals();
+      emit(const HomeMealsSuccess(meals: []));
+    } catch (e) {
+      emit(HomeMealsError(errorMessage: e.toString()));
+    }
+  }
+
+  // I'll create a method that delete today's meals automatically if the day has ended
+  // and trigger it when user open the app for first time in the day
+ 
 }

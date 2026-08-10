@@ -8,12 +8,14 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
+import 'package:nutrimind_ai/core/functions/app_warning_dialog.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_colors.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/core/widgets/app_buttom.dart';
 import 'package:nutrimind_ai/core/widgets/app_sized_box.dart';
 import 'package:nutrimind_ai/features/history/presentation/manager/cubit/history_cubit.dart';
+import 'package:nutrimind_ai/features/home/presentation/manager/home_cubit/home_cubit.dart';
 import 'package:nutrimind_ai/features/home/presentation/manager/home_meals_cubit/home_meals_cubit.dart';
 import 'package:nutrimind_ai/features/scanner/data/models/food_model.dart';
 import 'package:nutrimind_ai/core/shared/models/meal_model.dart';
@@ -277,9 +279,70 @@ class ScanResultView extends StatelessWidget {
                                   );
                                   return;
                                 }
-                                // Convert FoodModel To MealModel
+                                // 1. Get current calories & target limit from HomeCubit
+                                final homeState = context
+                                    .read<HomeCubit>()
+                                    .state;
+                                final targetDailyCalories =
+                                    homeState.nutritionModel?.calories ?? 2000;
+
+                                // 2. Get meals from HomeMealsCubit (which already has today's loaded meals)
+                                final meals = context
+                                    .read<HomeMealsCubit>()
+                                    .meals;
+
+                                // Filter meals for today and sum the calories
+                                final now = DateTime.now();
+                                final currentDailyCalories = meals
+                                    .where((meal) {
+                                      return meal.mealDate.year == now.year &&
+                                          meal.mealDate.month == now.month &&
+                                          meal.mealDate.day == now.day;
+                                    })
+                                    .fold<int>(
+                                      0,
+                                      (sum, meal) => sum + meal.mealCalories,
+                                    );
+
+                                // 3. Check limit
+                                final newDailyCalories =
+                                    currentDailyCalories +
+                                    (foodModel.calories ?? 0);
+
+                                if (newDailyCalories >= targetDailyCalories) {
+                                  showAnimatedSnackbar(
+                                    context,
+                                    message: 'Daily calories limit exceeded',
+                                    type: AnimatedSnackBarType.error,
+                                  );
+
+                                  showAppWarningDialog(
+                                    context,
+                                    title: 'Daily calories limit exceeded',
+                                    description:
+                                        'You have exceeded your daily calories limit. Do you want to delete all today\'s meals & then add the new one?',
+                                    buttonText: 'Confirm',
+                                    onConfirm: () async {
+                                      await context
+                                          .read<HomeMealsCubit>()
+                                          .deleteAllTodayMeals();
+                                      if (!context.mounted) return;
+                                      // Convert FoodModel To MealModel
+                                      final mealModel = MealModel.fromFood(
+                                        foodModel,
+                                      );
+                                      // Add Meal to ur diary
+                                      context.read<MealCubit>().addMeal(
+                                        mealModel,
+                                        image!,
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+
+                                // Add meal normally if under limit
                                 final mealModel = MealModel.fromFood(foodModel);
-                                // Add Meal to ur diary
                                 context.read<MealCubit>().addMeal(
                                   mealModel,
                                   image!,
@@ -300,4 +363,3 @@ class ScanResultView extends StatelessWidget {
     );
   }
 }
-

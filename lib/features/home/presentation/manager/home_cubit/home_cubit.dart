@@ -14,6 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
   final HomeRepository homeRepository;
   final UserRepository userRepository;
 
+
   Future<void> getNutrition() async {
     emit(state.copyWith(nutritionStatus: HomeStatus.loading));
     final result = await homeRepository.getNutrition();
@@ -45,16 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
       ),
       (userData) {
         if (userData != null && userData is Map<String, dynamic>) {
-          final userModel = UserModel(
-            fullName: userData['fullName'] as String?,
-            emailAddress: userData['emailAddress'] as String?,
-            gender: userData['gender'] as String?,
-            age: userData['age']?.toString(),
-            weight: userData['weight']?.toString(),
-            height: userData['height']?.toString(),
-            targetWeight: userData['targetWeight']?.toString(),
-            goal: userData['goal'] as String?,
-          );
+          final userModel = UserModel.fromJson(userData);
           emit(
             state.copyWith(
               userStatus: HomeStatus.success,

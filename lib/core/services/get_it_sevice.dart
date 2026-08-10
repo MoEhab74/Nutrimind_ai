@@ -98,8 +98,8 @@ void setupGetIt() {
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepoImpl(getIt<NutritionCalculationRepo>()),
   );
-  // HomeCub
-  getIt.registerFactory<HomeCubit>(
+  // HomeCubit
+  getIt.registerLazySingleton<HomeCubit>(
     () => HomeCubit(
       homeRepository: getIt<HomeRepository>(),
       userRepository: getIt<UserRepository>(),
