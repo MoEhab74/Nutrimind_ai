@@ -8,4 +8,6 @@ abstract class ChatRepo {
 
   // Get messages method ===> it will get all messages from firestore ordered by date 
   Stream<Either<String, List<MessageModel>>> getMessages();
+  // Clear messages method
+  Future<Either<String, void>> clearMessages();
 }

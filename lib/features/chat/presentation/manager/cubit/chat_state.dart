@@ -28,3 +28,15 @@ final class ChatGetMessagesError extends ChatState {
 
   ChatGetMessagesError({required this.errorMessage});
 }
+
+final class ChatClearMessagesLoading extends ChatState {}
+
+final class ChatClearMessagesSuccess extends ChatState {}
+
+final class ChatClearMessagesError extends ChatState {
+  final String errorMessage;
+
+  ChatClearMessagesError({required this.errorMessage});
+}
+
+

@@ -62,7 +62,8 @@ Respond in the language used by the user (Arabic, English, or Egyptian dialect).
           .map((msg) => "${msg.isUser ? 'User' : 'Assistant'}: ${msg.message}")
           .join('\n');
       const prompt = '"""$systemPrompt"""';
-      final String history = """
+      final String history =
+          """
 Chat History:
 $chatHistoryString
 """;
@@ -128,4 +129,51 @@ $chatHistoryString
           ),
         );
   }
+  /// Important Note In FireStore:
+  /// To clear all messages at one click you can use a Write Batch to delete all messages
+  /// Example:
+  /// WriteBatch batch = FirebaseFirestore.instance.batch();
+  /// snapshot.docs.forEach((doc) => batch.delete(doc.reference));
+  /// await batch.commit(); ===> This means commit all in one batch
+  /// But this is not efficient for large number of messages.
+  /// Because write batch is limitted to 500 operations (requests).
+  /// So for each 500 document we should commit the batch.
+  /// Batch collect all requests in it and then send them all at once so it is more efficient than iterating and sending requests individually
+  /// for each document.
+  /// So use it if the number of documents is less than 500.
+  /// For large number of documents use batching.
+  @override
+  Future<Either<String, void>> clearMessages() async {
+  try {
+    final snapshot = await messages.get();
+    if (snapshot.docs.isEmpty) return right(null);
+
+    // Get all docs from firestore collection
+    final docs = snapshot.docs;
+    // Set batch size to 500 because it is the maximum number of operations in a write batch
+    const batchSize = 500;
+    // Split the docs to chunks of 500, this "i" will be increased after the first 500 docs
+    for (var i = 0; i < docs.length; i += batchSize) {
+      final batch = _firestore.batch();
+      // this chunk will contain 500 docs
+      // subList ===> Returns a new list containing the elements between [start] and [end].
+      final chunk = docs.sublist(
+        i,
+        i + batchSize > docs.length ? docs.length : i + batchSize,
+      );
+
+      for (final doc in chunk) {
+        // Add doc to batch to be deleted
+        batch.delete(doc.reference);
+      }
+       // Commit the batch
+      await batch.commit();
+    }
+
+    return right(null);
+  } catch (e) {
+    log('Failed to clear messages $e');
+    return left('Failed to clear messages');
+  }
+}
 }

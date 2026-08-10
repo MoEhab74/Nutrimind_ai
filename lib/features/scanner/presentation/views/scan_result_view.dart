@@ -23,6 +23,7 @@ import 'package:nutrimind_ai/features/scanner/presentation/widgets/detailed_brea
 import 'package:nutrimind_ai/features/scanner/presentation/widgets/health_score_card_widget.dart';
 import 'package:nutrimind_ai/features/scanner/presentation/widgets/nutri_mind_insight_card_widget.dart';
 import 'package:nutrimind_ai/features/scanner/presentation/widgets/nutrient_badge_card_widget.dart';
+import 'package:nutrimind_ai/features/scanner/presentation/widgets/scan_again_outlined_button_widget.dart';
 
 class ScanResultView extends StatelessWidget {
   final FoodModel foodModel;
@@ -288,33 +289,7 @@ class ScanResultView extends StatelessWidget {
                     },
                   ),
                   const AppSizedBox(height: 12),
-                  OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 52.h),
-                      side: BorderSide(color: colorScheme.outline),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.r),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedQrCode,
-                          color: colorScheme.onSurface,
-                          size: 20.w,
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          'Scan Again',
-                          style: AppTextStyles.semiBold16.copyWith(
-                            color: colorScheme.onSurface,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  ScanAgainOutlinedButton(colorScheme: colorScheme),
                   const AppSizedBox(height: 20),
                 ],
               ),
@@ -325,3 +300,4 @@ class ScanResultView extends StatelessWidget {
     );
   }
 }
+

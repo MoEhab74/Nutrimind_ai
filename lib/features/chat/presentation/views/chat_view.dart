@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
+import 'package:nutrimind_ai/core/functions/app_warning_dialog.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/chat/data/models/message_model.dart';
 import 'package:nutrimind_ai/features/chat/presentation/manager/cubit/chat_cubit.dart';
@@ -74,10 +75,21 @@ class _ChatViewState extends State<ChatView> {
                         message: chatState.errorMessage,
                         type: AnimatedSnackBarType.error,
                       );
+                    } else if (chatState is ChatClearMessagesError) {
+                      showAnimatedSnackbar(
+                        context,
+                        message: chatState.errorMessage,
+                        type: AnimatedSnackBarType.error,
+                      );
                     }
                   },
                   builder: (context, chatState) {
                     final isTyping = chatState is ChatSendMessageLoading;
+                    final isClearing = chatState is ChatClearMessagesLoading;
+
+                    if (isClearing) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
                     return StreamBuilder<
                       dartz.Either<String, List<MessageModel>>
@@ -99,7 +111,9 @@ class _ChatViewState extends State<ChatView> {
                         return snapshot.data!.fold(
                           (failure) => Center(child: Text(failure)),
                           (messages) {
-                            if (messages.isEmpty && !isTyping) {
+                            if ((messages.isEmpty ||
+                                    chatState is ChatClearMessagesSuccess) &&
+                                !isTyping) {
                               return Column(
                                 children: [
                                   const ChatHeaderWidget(),
@@ -139,6 +153,18 @@ class _ChatViewState extends State<ChatView> {
               ChatInputBar(
                 controller: _messageController,
                 onSend: _sendMessage,
+                onClear: () {
+                  showAppWarningDialog(
+                    context,
+                    title: 'Delete All Messages',
+                    description:
+                        'Are you sure you want to delete all messages?',
+                    buttonText: 'Delete',
+                    onConfirm: () {
+                      context.read<ChatCubit>().clearMessages();
+                    },
+                  );
+                },
               ),
 
               // space to prevent Input Bar from covering the BottomNavBar

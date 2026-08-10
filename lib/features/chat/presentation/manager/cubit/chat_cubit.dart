@@ -37,6 +37,15 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
+  Future<void> clearMessages() async {
+    emit(ChatClearMessagesLoading());
+    final result = await chatRepository.clearMessages();
+    result.fold(
+      (failure) => emit(ChatClearMessagesError(errorMessage: failure)),
+      (r) => emit(ChatClearMessagesSuccess()),
+    );
+  }
+
   @override
   Future<void> close() {
     _messagesSubscription?.cancel();
