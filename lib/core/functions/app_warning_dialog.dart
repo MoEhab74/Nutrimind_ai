@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 
-
 void showAppWarningDialog(
   BuildContext context, {
   required String title,
@@ -10,6 +9,7 @@ void showAppWarningDialog(
   required String buttonText,
   required VoidCallback onConfirm,
   VoidCallback? onCancel,
+  Widget? icon,
 }) {
   final colorScheme = Theme.of(context).colorScheme;
   showDialog(
@@ -28,12 +28,16 @@ void showAppWarningDialog(
             children: [
               CircleAvatar(
                 radius: 28.r,
-                backgroundColor: colorScheme.errorContainer,
-                child: Icon(
-                  Icons.logout_rounded,
-                  color: colorScheme.error,
-                  size: 28.w,
+                backgroundColor: colorScheme.errorContainer.withValues(
+                  alpha: 0.6,
                 ),
+                child:
+                    icon ??
+                    Icon(
+                      Icons.logout_rounded,
+                      color: colorScheme.error,
+                      size: 28.w,
+                    ),
               ),
               SizedBox(height: 16.h),
 

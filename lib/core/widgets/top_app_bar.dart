@@ -5,8 +5,9 @@ import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
 import 'package:nutrimind_ai/gen/assets.gen.dart';
 
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TopAppBar({super.key, required this.title});
+  const TopAppBar({super.key, required this.title, this.actionsWidget});
   final String title;
+  final Widget? actionsWidget;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -40,24 +41,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
-      actions: [
-        Padding(
-          padding: EdgeInsetsDirectional.only(end: 16.w),
-          child: ClipOval(
-            child: Image.asset(
-              Assets.images.profile.path,
-              width: 32.r,
-              height: 32.r,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Icon(
-                Icons.account_circle,
-                size: 32.r,
-                color: AppColors.primary,
-              ),
-            ),
-          ),
-        ),
-      ],
+      actions: [actionsWidget ?? const SizedBox.shrink()],
     );
   }
 }

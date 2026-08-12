@@ -3,8 +3,10 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:nutrimind_ai/core/functions/animated_snack_bar.dart';
 import 'package:nutrimind_ai/core/functions/app_warning_dialog.dart';
+import 'package:nutrimind_ai/core/widgets/profile_icon_widget.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/chat/data/models/message_model.dart';
 import 'package:nutrimind_ai/features/chat/presentation/manager/cubit/chat_cubit.dart';
@@ -58,7 +60,10 @@ class _ChatViewState extends State<ChatView> {
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Scaffold(
-      appBar: const TopAppBar(title: 'Ai Chat'),
+      appBar: const TopAppBar(
+        title: 'Ai Chat',
+        actionsWidget: ProfileIconWidget(),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -160,6 +165,10 @@ class _ChatViewState extends State<ChatView> {
                     description:
                         'Are you sure you want to delete all messages?',
                     buttonText: 'Delete',
+                    icon: HugeIcon(
+                      icon: HugeIcons.strokeRoundedDelete01,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                     onConfirm: () {
                       context.read<ChatCubit>().clearMessages();
                     },

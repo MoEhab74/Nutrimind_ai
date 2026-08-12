@@ -108,4 +108,39 @@ class MealRepoImpl implements MealRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteAllMeals() async {
+    try {
+      final querySnapshot = await mealsCollection.get();
+      if (querySnapshot.docs.isEmpty) {
+        log('No meals found to delete.');
+        return;
+      }
+
+      // Get all docs from firestore collection
+      final docs = querySnapshot.docs;
+      // Set batch size to 500 because it is the maximum number of operations in a write batch
+      const batchSize = 500;
+      // Create batch operations in chunks of 500
+      for (int i = 0; i < docs.length; i += batchSize) {
+        final batch = _firebaseFirestore.batch();
+        // this chunk will contain 500 docs
+        // subList ===> Returns a new list containing the elements between [start] and [end].
+        final chunk = docs.sublist(
+          i,
+          i + batchSize > docs.length ? docs.length : i + batchSize,
+        );
+        // Add docs to batch to be deleted
+        for (final doc in chunk) {
+          batch.delete(doc.reference);
+        }
+        await batch.commit();
+      }
+      log('All meals deleted successfully');
+    } on Exception catch (e) {
+      log('Error Deleting All Meals: $e');
+      rethrow;
+    }
+  }
 }

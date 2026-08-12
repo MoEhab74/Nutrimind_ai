@@ -21,4 +21,14 @@ class HistoryMealsCubit extends Cubit<HistoryMealsState> {
       emit(HistoryMealsError(errorMessage: e.toString()));
     }
   }
+
+  Future<void> deleteAllMeals() async {
+    emit(HistoryMealsLoading());
+    try {
+      await _mealRepo.deleteAllMeals();
+      emit(HistoryMealsSuccess(meals: const []));
+    } catch (e) {
+      emit(HistoryMealsError(errorMessage: e.toString()));
+    }
+  }
 }

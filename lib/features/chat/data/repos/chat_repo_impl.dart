@@ -172,7 +172,11 @@ $chatHistoryString
 
     return right(null);
   } catch (e) {
-    log('Failed to clear messages $e');
+    if (e is ServerException) {
+      log('Server Exception in Chat Repo ===> ${e.errorModel.message}');
+      return left(e.errorModel.message);
+    }
+    log('Something Went Wrong With Chat Repo ===> $e');
     return left('Failed to clear messages');
   }
 }

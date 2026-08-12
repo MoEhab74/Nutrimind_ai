@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/shared/models/meal_model.dart';
 import 'package:nutrimind_ai/core/theme/styles/app_text_styles.dart';
+import 'package:nutrimind_ai/core/widgets/profile_icon_widget.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/home/presentation/manager/home_cubit/home_cubit.dart';
 import 'package:nutrimind_ai/features/home/presentation/manager/home_meals_cubit/home_meals_cubit.dart';
@@ -38,7 +39,10 @@ class _HomeViewState extends State<HomeView> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: const TopAppBar(title: 'Home'),
+      appBar: const TopAppBar(
+        title: 'Home',
+        actionsWidget: ProfileIconWidget(),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
@@ -51,10 +55,11 @@ class _HomeViewState extends State<HomeView> {
 
               return BlocBuilder<HomeMealsCubit, HomeMealsState>(
                 builder: (context, mealsState) {
-                  final List<MealModel> allMeals = mealsState is HomeMealsSuccess
+                  final List<MealModel> allMeals =
+                      mealsState is HomeMealsSuccess
                       ? mealsState.meals
                       : context.watch<HomeMealsCubit>().meals;
-
+                  // to get only today's meals
                   final now = DateTime.now();
                   final meals = allMeals.where((meal) {
                     return meal.mealDate.year == now.year &&
@@ -86,13 +91,17 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Greeting
-                      Text(
-                        greetingText,
-                        style: AppTextStyles.semiBold28.copyWith(
-                          color: colorScheme.onSurface,
-                          fontSize: 22.sp,
-                        ),
-                      ),
+                      homeState.userStatus == HomeStatus.loading
+                          ? CircularProgressIndicator(
+                              color: colorScheme.primary,
+                            )
+                          : Text(
+                              greetingText,
+                              style: AppTextStyles.semiBold28.copyWith(
+                                color: colorScheme.onSurface,
+                                fontSize: 22.sp,
+                              ),
+                            ),
                       SizedBox(height: 4.h),
                       Text(
                         'Stay healthy and mindful today.',
@@ -202,7 +211,9 @@ class _HomeViewState extends State<HomeView> {
                           decoration: BoxDecoration(
                             color: colorScheme.surfaceContainerLow,
                             borderRadius: BorderRadius.circular(16.r),
-                            border: Border.all(color: colorScheme.outlineVariant),
+                            border: Border.all(
+                              color: colorScheme.outlineVariant,
+                            ),
                           ),
                           child: Center(
                             child: Text(

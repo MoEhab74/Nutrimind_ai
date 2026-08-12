@@ -8,6 +8,10 @@ class ProfileStatCard extends StatelessWidget {
   final String subtitle;
   final IconData icon;
   final Color? backgroundColor;
+  final Color? iconColor;
+  final Color? tagColor;
+  final Color? titleColor;
+  final Color? subtitleColor;
   final Widget? extraWidget;
 
   const ProfileStatCard({
@@ -17,6 +21,10 @@ class ProfileStatCard extends StatelessWidget {
     required this.subtitle,
     required this.icon,
     this.backgroundColor,
+    this.iconColor,
+    this.tagColor,
+    this.titleColor,
+    this.subtitleColor,
     this.extraWidget,
   });
 
@@ -38,12 +46,12 @@ class ProfileStatCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: colorScheme.primary, size: 22.w),
+              Icon(icon, color: iconColor ?? colorScheme.primary, size: 22.w),
               if (tag != null)
                 Text(
                   tag!,
                   style: AppTextStyles.semiBold12.copyWith(
-                    color: colorScheme.primary,
+                    color: tagColor ?? colorScheme.primary,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -57,7 +65,7 @@ class ProfileStatCard extends StatelessWidget {
               child: Text(
                 title,
                 style: AppTextStyles.semiBold20.copyWith(
-                  color: colorScheme.onSurface,
+                  color: titleColor ?? colorScheme.onSurface,
                 ),
                 maxLines: 1,
               ),
@@ -72,7 +80,7 @@ class ProfileStatCard extends StatelessWidget {
                   child: Text(
                     subtitle,
                     style: AppTextStyles.medium14.copyWith(
-                      color: colorScheme.outline,
+                      color: subtitleColor ?? colorScheme.outline,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

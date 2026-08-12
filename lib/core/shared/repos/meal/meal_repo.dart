@@ -12,4 +12,7 @@ abstract class MealRepo {
 
   // delete all today's meals
   Future<void> deleteAllTodayMeals();
+
+  // delete all meals
+  Future<void> deleteAllMeals();
 }

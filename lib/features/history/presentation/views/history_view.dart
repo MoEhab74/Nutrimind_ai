@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nutrimind_ai/core/functions/app_warning_dialog.dart';
 import 'package:nutrimind_ai/core/routing/app_routes.dart';
 import 'package:nutrimind_ai/core/widgets/top_app_bar.dart';
 import 'package:nutrimind_ai/features/history/presentation/manager/cubit/history_cubit.dart';
@@ -27,7 +29,27 @@ class _HistoryViewState extends State<HistoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TopAppBar(title: 'History'),
+      appBar: TopAppBar(
+        title: 'History',
+        actionsWidget: IconButton(
+          onPressed: () {
+            showAppWarningDialog(
+              context,
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedDelete01,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              title: 'Clear History',
+              description: 'Are you sure you want to clear your history meals?',
+              buttonText: 'Clear',
+              onConfirm: () {
+                context.read<HistoryMealsCubit>().deleteAllMeals();
+              },
+            );
+          },
+          icon: const HugeIcon(icon: HugeIcons.strokeRoundedDelete01),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
@@ -97,4 +119,3 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 }
-

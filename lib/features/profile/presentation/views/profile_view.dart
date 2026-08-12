@@ -125,6 +125,9 @@ class _ProfileViewState extends State<ProfileView> {
                         subtitle: 'Target: ${targetWeight ?? '72'}kg',
                         icon: Icons.track_changes_outlined,
                         backgroundColor: colorScheme.secondaryContainer,
+                        tagColor: colorScheme.onSecondaryContainer,
+                        iconColor: colorScheme.onSecondaryContainer,
+                        subtitleColor: colorScheme.onSecondaryContainer,
                       ),
                       ProfileStatCard(
                         tag: 'BMI INDEX',
