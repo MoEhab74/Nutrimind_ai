@@ -8,6 +8,7 @@ import 'package:nutrimind_ai/core/api/api_consumer.dart';
 import 'package:nutrimind_ai/core/api/dio_consumer.dart';
 import 'package:nutrimind_ai/core/cache/cache_helper.dart';
 import 'package:nutrimind_ai/core/services/is_logged_in_service.dart';
+import 'package:nutrimind_ai/core/services/notification_service.dart';
 import 'package:nutrimind_ai/core/services/nutrition_calculation.dart';
 import 'package:nutrimind_ai/core/services/onboarding_service.dart';
 import 'package:nutrimind_ai/core/services/supabase_storage_service.dart';
@@ -159,4 +160,9 @@ void setupGetIt() {
   getIt.registerLazySingleton<HistoryMealsCubit>(
     () => HistoryMealsCubit(mealRepo: getIt<MealRepo>()),
   );
+  // NotificationService
+  getIt.registerLazySingleton<NotificationService>(
+    () => NotificationService(),
+  );
+  
 }

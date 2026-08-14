@@ -8,6 +8,7 @@ import 'package:nutrimind_ai/core/api/api_endpoints.dart';
 import 'package:nutrimind_ai/core/cache/cache_helper.dart';
 import 'package:nutrimind_ai/core/routing/app_router.dart';
 import 'package:nutrimind_ai/core/services/get_it_sevice.dart';
+import 'package:nutrimind_ai/core/services/notification_service.dart';
 import 'package:nutrimind_ai/core/theme/themes/app_themes.dart';
 import 'package:nutrimind_ai/core/theme/themes/manager/theme_cubit.dart';
 import 'package:nutrimind_ai/core/theme/themes/manager/theme_state.dart';
@@ -19,10 +20,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 void main() async {
   // Make sure that everything is ready before running the app
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize GetIt service dependencies
+  setupGetIt();
   // Initialize .env
   await dotenv.load(fileName: ".env");
   // Initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Initialize notification service
+  await getIt.get<NotificationService>().initialize();
 
   // Initialize Supabase
   await Supabase.initialize(
@@ -39,8 +44,6 @@ void main() async {
 
   // Initialize the router
   AppRouter.setupRouter();
-  // Initialize the get it service
-  setupGetIt();
   // Initialize cache helper
   await getIt.get<CacheHelper>().initCacheHelper();
 

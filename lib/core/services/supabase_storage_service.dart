@@ -8,6 +8,13 @@ class SupabaseStorageService {
 
   Future<String> uploadImgeXfile({required XFile image}) async {
     try {
+      // If the image is already a remote URL (e.g. from history), return it directly
+      if (image.path.startsWith('http://') ||
+          image.path.startsWith('https://')) {
+        log('Supabase Image is already hosted: ${image.path}');
+        return image.path;
+      }
+
       final fileName = "${DateTime.now().millisecondsSinceEpoch}.jpg";
       // Because image is a XFile we need to convert it to bytes
       // to upload it to supabase storage because we can't upload XFile directly to supabase storage
